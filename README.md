@@ -6,4 +6,6 @@ Clone repo
 
 Navigate to repo in terminal 
 
-type npm install 
+Navigate to client folder then type "npm install" 
+
+Navigate to server folder then type "npm install" 
