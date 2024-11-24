@@ -2,6 +2,8 @@
 EECS4413
 
 # Getting started
-Clone repo \n
-Navigate to repo in terminal \n
+Clone repo 
+
+Navigate to repo in terminal 
+
 type npm install 
