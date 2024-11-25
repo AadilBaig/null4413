@@ -12,6 +12,7 @@
 
 .navbar-right {
     display: flex;
+    flex: 1;
     justify-content: flex-end;
     gap: 10px;
     align-items: center;
