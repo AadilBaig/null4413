@@ -1,3 +1,6 @@
+* {
+    box-sizing: border;
+}
 .mainContainer {
     display: flex;
     align-items: center;
@@ -7,8 +10,8 @@
 
 .forumContainer {
     position: relative;
-    height: 50%;
-    width: 25%;
+    height: 470px;
+    width: 350px;
     background-color: white;
     border-radius: 20px;
     z-index: 0; /* Lower z-index to allow ::before to be above it */
