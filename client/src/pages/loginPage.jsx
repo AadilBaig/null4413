@@ -57,7 +57,7 @@ const LoginPage = () => {
 
             <div>
               Don't have an account? 
-              <a href="./register" style={{ marginLeft: '10px'}}>Create a Account</a>
+              <a href="./register" style={{ marginLeft: '5px'}}>Create a account</a>
             </div>
         </form>
         </div>
