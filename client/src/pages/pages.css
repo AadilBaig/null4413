@@ -8,7 +8,7 @@
 .forumContainer {
     position: relative;
     height: 50%;
-    width: 50vh;
+    width: 25%;
     background-color: white;
     border-radius: 20px;
     z-index: 0; /* Lower z-index to allow ::before to be above it */
