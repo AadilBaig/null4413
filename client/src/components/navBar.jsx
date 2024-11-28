@@ -2,7 +2,7 @@ import React , {useState} from 'react'
 import './components.css';
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
-import SearchBar from './SearchBar';
+import SearchBar from './searchBar';
 
 const NavBar = () => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
