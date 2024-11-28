@@ -1,0 +1,74 @@
+.mainContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.forumContainer {
+    position: relative;
+    height: 50%;
+    width: 50vh;
+    background-color: white;
+    border-radius: 20px;
+    z-index: 0; /* Lower z-index to allow ::before to be above it */
+    overflow: hidden;
+}
+
+.forumContainer::before {
+    content: '';
+    position: absolute;
+    top: -130px;
+    left: 120px;
+    width: 170px;
+    height: 160%;
+    background: #CC5500;
+    animation: rotate 6s linear infinite;
+    z-index: 1; /* Higher z-index to appear above the content */
+}
+
+.forumContainer .content {
+    position: relative; /* Makes content appear above ::before */
+    z-index: 3; /* Content should be above the background */
+}
+
+.forumContainer::after {
+    content: '';
+    position: absolute;
+    background: white;
+    inset: 5px;
+    border-radius: 15px;
+    z-index: 2; /* Keeps the border above everything */
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.titleContainer {
+    display: flex;
+    font-size: 64px;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+    margin: 80px 0 20px 0 ;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.submitButton {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
