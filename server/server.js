@@ -1,29 +1,19 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+
+// Route/api imports
+import catalogues from "./api/catalogues.route.js";
 
 const app = express();
-// server uses ports 3001, 3002 or 3003 tcp to communicate
-const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors()); // used to allow frontend to communicate with the backend via routes
-app.use(express.json()); // Parses json data
+app.use(express.json()); // Allows server to accept json in the body of a request
 
-// Routes
-//.....
+// Routes (will be in routes folder)
+app.use("/api/v1/catalogues", catalogues);
+app.use("*", (req, res) =>
+  res.status(404).json({ error: "path doens't exists" })
+);
 
-// Listening to server (use command npm start)
-app.listen(port, () => {
-  console.log("Server is running on port " + port);
-});
-
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("MongoDB connection error:", err));
+export default app;
