@@ -64,10 +64,10 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit} className="inputContainer">
             <div>
               <label>Email</label>
-              <div style={{display: "flex", flexDirection: "column"}}>
+                <div style={{display: "flex", flexDirection: "column"}}>
                 <input className="inputBox" name="username" type="text" required onChange={(e) => setEmail(e.target.value)}/>
+                </div>
                 <label className="errorLabel">{emailError}</label>
-              </div>
             </div>
 
             <div style={{display: "flex", flexDirection: "column"}}>
@@ -77,7 +77,7 @@ const RegisterPage = () => {
               </div>
             </div>
 
-            <div style={{width: '204px', margin: "0.5rem"}}>
+            <div style={{width: '225px', margin: "0.5rem"}}>
               <button className="submitButton" type="submit">Sign Up</button>
             </div>
 
