@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import './pages.css'
+import axios from "axios"
 
 const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [loginError, setLoginError] = useState('');
+
 
   const handleSubmit = async(e) => {
     e.preventDefault(); // Prevent form from submitting and reloading the page
@@ -15,6 +17,43 @@ const RegisterPage = () => {
       setEmailError('Please enter a valid email')
       return;
     }
+
+    const userData = {
+      name: email,
+      password: password
+    }
+
+    // check if user already exists in database
+    try{
+        const response = await axios.get('http://localhost:5000/api/users/findUser', userData, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        // user already exists, reject
+        console.log('User has been found: ', response.data);
+        setEmailError('Email already exists, Please try another')
+        return;
+
+    }
+    catch (error) {
+      console.error('Error finding user:', error);
+    }
+
+    // Post new user data to data base
+    try {
+      const response = await axios.post('http://localhost:5000/api/users/register', userData, {
+        headers: {
+          'Content-Type': 'application/json',
+        }});
+
+        console.log('User has been successfully added: ', response.data)
+    }
+    catch (error) {
+      console.error('Error in registering user: ', error);
+    }
+
   };
 
   return (

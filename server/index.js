@@ -1,11 +1,11 @@
 import app from "./server.js";
 import mongodb from "mongodb";
 import dotenv from "dotenv";
+import UsersDAO from "./dao/usersDao.js";
 dotenv.config(); // used to load env variables from .env file
 
 const MongoClient = mongodb.MongoClient;
 
-// server uses ports 3001, 3002 or 3003 tcp to communicate
 const port = process.env.PORT || 5000;
 
 // Connect to MongoDB
@@ -18,6 +18,10 @@ MongoClient.connect(process.env.MONGO_URL, {
   })
   .then(async (client) => {
     console.log("MongoDB connected successfully!");
+
+    // Sends MongoDB connection object to respective DAOs
+    await UsersDAO.injectDB(client);
+    //...
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
