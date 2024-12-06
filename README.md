@@ -14,11 +14,11 @@ Navigate to server folder then type the following in terminal:
 
     npm install 
 
-Created a .env file in the server folder, and add the follow specs:
+If it's not already there, create a .env file in the server folder, and add the follow specs:
 
     MONGO_URL=mongodb+srv://eecs4413:NYPpzEvcPdqaLknd@cluster.wzjzf.mongodb.net/?retryWrites=true&w=majority&appName=cluster
     
-    PORT=5000
+    PORT=3001
     
     DB_NAME = eecs4413
 
