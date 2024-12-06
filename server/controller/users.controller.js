@@ -8,7 +8,7 @@ export default class UsersController {
 
     // Unable to find user
     if (!response) {
-      res.status(404).json({ error: "Not Found" });
+      res.status(401).json({ error: "Not Found" });
       return;
     }
 

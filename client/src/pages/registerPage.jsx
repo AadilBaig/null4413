@@ -38,8 +38,8 @@ const RegisterPage = () => {
 
     }
     catch (error) {
-      if (error.response.status === 404)
-        console.error('User does not exists, can proceed...', error);
+      if (error.response.status === 401)
+        console.error('User does not exists, can proceed...');
     }
 
     const userData = {
