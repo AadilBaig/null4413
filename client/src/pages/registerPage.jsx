@@ -25,7 +25,7 @@ const RegisterPage = () => {
 
     // check if user already exists in database
     try{
-        const response = await axios.get('http://localhost:5000/api/users/findUser', userData, {
+        const response = await axios.get('http://localhost:3001/api/users/findUser', userData, {
           headers: {
             'Content-Type': 'application/json',
           }
@@ -43,7 +43,7 @@ const RegisterPage = () => {
 
     // Post new user data to data base
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', userData, {
+      const response = await axios.post('http://localhost:3001/api/users/register', userData, {
         headers: {
           'Content-Type': 'application/json',
         }});

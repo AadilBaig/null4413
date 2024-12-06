@@ -6,7 +6,7 @@ dotenv.config(); // used to load env variables from .env file
 
 const MongoClient = mongodb.MongoClient;
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 
 // Connect to MongoDB
 MongoClient.connect(process.env.MONGO_URL, {
