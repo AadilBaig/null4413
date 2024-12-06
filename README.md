@@ -6,9 +6,13 @@ Clone repo
 
 Navigate to repo in terminal 
 
-Navigate to client folder then type "npm install" 
+Navigate to client folder then type the follow in terminal: 
 
-Navigate to server folder then type "npm install" 
+    npm install
+
+Navigate to server folder then type the following in terminal: 
+
+    "npm install" 
 
 Created a .env file in the server folder, and add the follow specs:
 
