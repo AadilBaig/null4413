@@ -1,5 +1,5 @@
 * {
-    box-sizing: border;
+    box-sizing: border-box; /* Width and height are include padding and border, so size elemtns stays consistent*/
 }
 .mainContainer {
     display: flex;
@@ -70,6 +70,10 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.inputContainer .inputBox {
+    width: 204px;
 }
 
 .errorLabel {

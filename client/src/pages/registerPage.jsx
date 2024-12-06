@@ -77,7 +77,7 @@ const RegisterPage = () => {
               </div>
             </div>
 
-            <div style={{width: '177px', margin: "1rem"}}>
+            <div style={{width: '204px', margin: "0.5rem"}}>
               <button className="submitButton" type="submit">Sign Up</button>
             </div>
 
