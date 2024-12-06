@@ -12,7 +12,7 @@ Navigate to client folder then type the follow in terminal:
 
 Navigate to server folder then type the following in terminal: 
 
-    "npm install" 
+    npm install 
 
 Created a .env file in the server folder, and add the follow specs:
 
