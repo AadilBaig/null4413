@@ -18,7 +18,7 @@ export default class UsersDAO {
   }
 
   // method finds a specific user by name/email
-  static async getUser({ name = null, password = null } = {}) {
+  static async getUser(name = null) {
     let user;
     let query = {};
 

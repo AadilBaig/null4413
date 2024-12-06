@@ -3,11 +3,8 @@ import UsersDAO from "../dao/usersDao.js";
 export default class UsersController {
   // Controller method for finding a user
   static async findUser(req, res, next) {
-    const { name, password } = req.body;
-    const response = await UsersDAO.getUser({
-      name,
-      password,
-    });
+    const name = req.query.name;
+    const response = await UsersDAO.getUser(name);
 
     // Unable to find user
     if (!response) {
