@@ -1,16 +1,23 @@
 import React , {useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import './components.css';
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
 import SearchBar from './searchBar';
+import { useCookie } from '../global/CookieContext';
 
 const NavBar = () => {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+  const { cookieData, saveCookieData, clearCookieData } = useCookie();
 
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    setAccessToken("");
+  const navigate = useNavigate();
+
+  const logout = (e) => {
+    e.preventDefault();
+    console.log("Logged out");
+    clearCookieData();
+    navigate("/login")
   }
+
   return (
     <div>
         <nav className="navbar">
@@ -20,7 +27,7 @@ const NavBar = () => {
           <FaRegUser size={"40"}/>
             <div>
               {
-                accessToken ? <div><button onClick={logout}>Sign Out</button></div> : (
+                cookieData ? <div><a style={{cursor: "pointer", textDecoration: "underline", color: "blue"}} onClick={logout}>Sign Out</a></div> : (
                 <>
                   <div><a href="/login">Sign In</a></div>
                   <div><a href="/register">Register</a></div>

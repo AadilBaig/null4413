@@ -18,7 +18,7 @@ export default class UsersDAO {
   }
 
   // method finds a specific user by name/email
-  static async getUser(name = null) {
+  static async getUserName(name = null) {
     let user;
     let query = {};
 
@@ -31,7 +31,35 @@ export default class UsersDAO {
       user = await usersCollection.findOne(query);
 
       if (!user) {
-        console.log("User not found");
+        console.log("User name not found.");
+        return null;
+      }
+
+      return { userName: user.name };
+    } catch (error) {
+      console.error("Error in finding username in collection: ", err);
+      return null;
+    }
+  }
+
+  // method finds a specific user
+  static async getUser(name = null, password = null) {
+    let user;
+    let query = {};
+
+    if (name) {
+      query.name = name;
+    }
+    if (password) {
+      query.password = password;
+    }
+
+    try {
+      // Search for user by email (name)
+      user = await usersCollection.findOne(query);
+
+      if (!user) {
+        console.log("User not found.");
         return null;
       }
 

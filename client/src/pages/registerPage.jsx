@@ -25,7 +25,7 @@ const RegisterPage = () => {
 
     // check if user already exists in database
     try{
-        const response = await axios.get(`http://localhost:3001/api/users/findUser?name=${email}`, {
+        const response = await axios.get(`http://localhost:3001/api/users/findUserName?name=${email}`, {
           headers: {
             'Content-Type': 'application/json',
           }

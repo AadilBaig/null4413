@@ -5,6 +5,9 @@ const router = express.Router();
 // gets list of all users
 // router.route("/").get(UsersController.getAllUsers);
 
+// get a specific user by name
+router.route("/findUserName").get(UsersController.findUserName);
+
 // get a specific user
 router.route("/findUser").get(UsersController.findUser);
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useCookie } from '../global/CookieContext'
+import axios from "axios"
 import './pages.css'
 
 const LoginPage = () => {
@@ -9,8 +11,16 @@ const LoginPage = () => {
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
 
+  // Get cookie methods from our context api class "CookieContext"
+  const { cookieData, saveCookieData, clearCookieData } = useCookie();
+
+  // Method for handling user login
   const handleSubmit = async(e) => {
     e.preventDefault(); // Prevent form from submitting and reloading the page
+
+    // Reset Error messages at beginning 
+    setLoginError("");
+    setEmailError("");
 
     // checks if email is valid
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
@@ -18,7 +28,32 @@ const LoginPage = () => {
       return;
     }
 
-    // Send login info to the server for verification
+    // fetch user in database
+    try {
+      const response = await axios.get(`http://localhost:3001/api/users/findUser?name=${email}&password=${password}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      // Login successful, now create a user session 
+      const userSession = {
+        userName: response.data.name,
+        accessToken: true
+      }
+      saveCookieData(userSession);
+
+      // redirect to home page
+      navigate('/');
+
+    }
+    catch (error) {
+      if (error.response.status === 401) {
+        console.error('User does not exists: ', error);
+        setLoginError('Email is not registered, try again');
+      }
+      return;
+    }
     
     // .. if response.status is 401 it means unauthorized because the credentials don't exists
       //... if 401, then update loginError = 'invalid email or password' 
@@ -51,7 +86,7 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <div style={{width: '177px', margin: "1rem"}}>
+            <div style={{width: '225px', margin: "1rem"}}>
               <button className="submitButton" type="submit">Sign In</button>
             </div>
 
