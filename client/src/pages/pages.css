@@ -1,6 +1,8 @@
 * {
     box-sizing: border-box; /* Width and height are include padding and border, so size elemtns stays consistent*/
 }
+
+/* Used for login and register page */
 .mainContainer {
     display: flex;
     align-items: center;
@@ -86,3 +88,29 @@
     width: 100%;
     justify-content: center;
 }
+
+/* Used for home page */
+.mainContainerGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 equal width columns */
+    margin-left: 1.5rem;        
+    margin-right: 1.5rem;        
+}
+
+.mainContainerGrid .left {
+    background-color: lightcoral;                 
+    grid-column: span 1;
+}
+
+.mainContainerGrid .right {
+    background-color: lightblue;
+    grid-column: span 6;
+}
+
+.checkBoxContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 1rem;
+}
+
