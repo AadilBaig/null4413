@@ -39,8 +39,10 @@ const LoginPage = () => {
       // Login successful, now create a user session 
       const userSession = {
         userName: response.data.name,
-        accessToken: true
+        accessToken: true,
+        role: response.data.role
       }
+      console.log(userSession);
       saveCookieData(userSession);
 
       // redirect to home page
