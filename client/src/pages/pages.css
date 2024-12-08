@@ -107,7 +107,7 @@
     grid-column: span 6;
 }
 
-.checkBoxContainer {
+.radioBoxContainer {
     display: flex;
     flex-direction: column;
     gap: 5px;

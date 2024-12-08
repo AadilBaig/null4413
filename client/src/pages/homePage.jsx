@@ -20,7 +20,7 @@ const HomePage = () => {
   // retrieves user access token if it exists -> used for session management
 
   // Handle checkbox changes for categories, genres, and brands
-  const handleCheckBoxChange = (e, type) => {
+  const handleRadioBoxChange = (e, type) => {
 
     const { name, checked } = e.target;
 
@@ -31,7 +31,7 @@ const HomePage = () => {
             if (category.name === name) {
               return { ...category, isCheck: checked }; // return updated category
             }
-            return category; // return unmodified category 
+            return { ...category, isCheck: false}; // return unmodified category 
           }
         );
       });
@@ -43,7 +43,7 @@ const HomePage = () => {
           if (genre.name === name) {
             return { ...genre, isCheck: checked }; // return updated genre
           }
-          return genre; // return unmodified genre 
+          return {...genre, isCheck: false}; // return unmodified genre 
         }
       );
     });
@@ -55,7 +55,7 @@ const HomePage = () => {
           if (brand.name === name) {
             return { ...brand, isCheck: checked }; // return updated brand
           }
-          return brand; // return unmodified brand 
+          return {...brand, isCheck: false}; // return unmodified brand 
         }
       );
     });
@@ -74,12 +74,12 @@ const HomePage = () => {
           <div className="left">
               <div>
                 Categories
-                <div className="checkBoxContainer">
+                <div className="radioBoxContainer">
                   {categories.map((category) => {
                     return (
                     <label key={category.name}>
                       {category.name}
-                      <input type="checkbox" name={category.name} checked={category.isCheck} onChange={(e) => handleCheckBoxChange(e, "category")} />
+                      <input type="radio" name={category.name} checked={category.isCheck} onChange={(e) => handleRadioBoxChange(e, "category")} />
                     </label>
                     );
                   })}
@@ -87,12 +87,12 @@ const HomePage = () => {
               </div>
               <div>
                 Genres
-                <div className="checkBoxContainer">
+                <div className="radioBoxContainer">
                   {genres.map((genre) => {
                       return (
                       <label key={genre.name}>
                         {genre.name}
-                        <input type="checkbox" name={genre.name} checked={genre.isCheck} onChange={(e) => handleCheckBoxChange(e, "genre")} />
+                        <input type="radio" name={genre.name} checked={genre.isCheck} onChange={(e) => handleRadioBoxChange(e, "genre")} />
                       </label>
                       );
                     })}
@@ -100,12 +100,12 @@ const HomePage = () => {
               </div>
               <div>
                 Brands
-                <div className="checkBoxContainer">
+                <div className="radioBoxContainer">
                   {brands.map((brand) => {
                         return (
                         <label key={brand.name}>
                           {brand.name}
-                          <input type="checkbox" name={brand.name} checked={brand.isCheck} onChange={(e) => handleCheckBoxChange(e, "brand")} />
+                          <input type="radio" name={brand.name} checked={brand.isCheck} onChange={(e) => handleRadioBoxChange(e, "brand")} />
                         </label>
                         );
                       })}
