@@ -18,12 +18,12 @@ export default class UsersDAO {
   }
 
   // method finds a specific user by name/email
-  static async getUserName(name = null) {
+  static async getUserName(email = null) {
     let user;
     let query = {};
 
-    if (name) {
-      query.name = name;
+    if (email) {
+      query.email = email;
     }
 
     try {
@@ -35,7 +35,7 @@ export default class UsersDAO {
         return null;
       }
 
-      return { userName: user.name };
+      return { userName: user.email };
     } catch (error) {
       console.error("Error in finding username in collection: ", err);
       return null;
@@ -43,12 +43,12 @@ export default class UsersDAO {
   }
 
   // method finds a specific user
-  static async getUser(name = null, password = null) {
+  static async getUser(email = null, password = null) {
     let user;
     let query = {};
 
-    if (name) {
-      query.name = name;
+    if (email) {
+      query.email = email;
     }
     if (password) {
       query.password = password;
@@ -71,13 +71,20 @@ export default class UsersDAO {
   }
 
   // method registers a user to the database
-  static async addUser({ name = null, password = null }) {
+  static async addUser({
+    firstName = null,
+    lastName = null,
+    email = null,
+    password = null,
+  }) {
     let user;
     let query = {};
 
     // create user schema
-    if (name && password) {
-      query.name = name;
+    if (firstName && lastName && email && password) {
+      query.firstName = firstName;
+      query.lastName = lastName;
+      query.email = email;
       query.password = password;
       (query.cart = []),
         (query.creditCard = ""),

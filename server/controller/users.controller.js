@@ -1,10 +1,10 @@
 import UsersDAO from "../dao/usersDao.js";
 
 export default class UsersController {
-  // Controller method for finding a user by name
+  // Controller method for finding a user by email
   static async findUserName(req, res, next) {
-    const name = req.query.name;
-    const response = await UsersDAO.getUserName(name);
+    const email = req.query.name;
+    const response = await UsersDAO.getUserName(email);
 
     // Unable to find user
     if (!response) {
@@ -17,10 +17,10 @@ export default class UsersController {
 
   // Constroller method for finding a user
   static async findUser(req, res, next) {
-    const name = req.query.name;
+    const email = req.query.name;
     const password = req.query.password;
 
-    const response = await UsersDAO.getUser(name, password);
+    const response = await UsersDAO.getUser(email, password);
 
     // Unable to find user
     if (!response) {
@@ -33,9 +33,11 @@ export default class UsersController {
 
   // Controller method for adding a new user
   static async addUser(req, res, next) {
-    const { name, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const response = await UsersDAO.addUser({
-      name,
+      firstName,
+      lastName,
+      email,
       password,
     });
 

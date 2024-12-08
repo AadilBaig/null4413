@@ -4,6 +4,8 @@ import axios from "axios"
 import { useNavigate } from 'react-router-dom'
 
 const RegisterPage = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -43,7 +45,9 @@ const RegisterPage = () => {
     }
 
     const userData = {
-      name: email,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
       password: password
     }
 
@@ -59,6 +63,8 @@ const RegisterPage = () => {
         // reset 
         setEmail("");
         setPassword("");
+        setFirstName("");
+        setLastName("");
 
         // redirect
         navigate("/login");
@@ -73,8 +79,20 @@ const RegisterPage = () => {
     <div className="mainContainer">
       <div className="forumContainer">
         <div className="content">
-        <div className="titleContainer">Sign Up<label className="errorLabel">{registerError}</label></div>
+        <div className="titleContainer" style={{marginTop: "1.5rem"}}>Sign Up<label className="errorLabel">{registerError}</label></div>
         <form onSubmit={handleSubmit} className="inputContainer">
+            <div>
+              <label>First Name</label>
+                <div>
+                <input className="inputBox" name="firstName" type="text" required onChange={(e) => setFirstName(e.target.value)}/>
+                </div>
+            </div>
+            <div>
+              <label>Last Name</label>
+                <div>
+                <input className="inputBox" name="lastname" type="text" required onChange={(e) => setLastName(e.target.value)}/>
+                </div>
+            </div>
             <div>
               <label>Email</label>
                 <div style={{display: "flex", flexDirection: "column"}}>

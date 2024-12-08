@@ -38,7 +38,9 @@ const LoginPage = () => {
 
       // Login successful, now create a user session 
       const userSession = {
-        userName: response.data.name,
+        fistName: response.data.firstName,
+        lastName: response.data.lastName,
+        email: response.data.email,
         accessToken: true,
         role: response.data.role
       }
