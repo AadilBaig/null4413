@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import './components.css';
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa";
-import SearchBar from './searchBar';
 import { useCookie } from '../global/CookieContext';
 
 const NavBar = () => {
@@ -22,7 +21,6 @@ const NavBar = () => {
     <div>
         <nav className="navbar">
           <a href="/">Home</a>
-          <SearchBar/>
           <div className="navbar-right">
           <FaRegUser size={"40"}/>
             <div>
