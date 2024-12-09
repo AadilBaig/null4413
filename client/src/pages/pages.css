@@ -178,11 +178,12 @@ top: 0;
 z-index: 3;
   }
   
-  /* @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .rightFilterBars {
-      display: none;
+      flex-direction: column;
+      top: 40px;
     }
-  } */
+  }
 
 
 
