@@ -115,16 +115,60 @@
 }
 
 .itemsContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 16px;
+    align-items: flex-start; /* Prevent items from stretching vertically */
 }
 
 .item {
+    flex: 0 1 calc(33.33% - 16px); /* Ensures 3 items per row with gap considered */
+    box-sizing: border-box; /* To account for padding and gap in the width */
     background-color: #f0f0f0;
     padding: 16px;
     text-align: center;
     border: 1px solid #ddd;
     border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
+
+.placeHolder {
+    width: 300px;
+    height: 300px;
+    background-color: gray;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc; 
+}
+
+.addCartButton{
+    margin: 5px;
+    padding: 10px;
+    border: 0px solid;
+    border-radius: 15px;
+    background-color: gold;
+}
+
+.addCartButton:hover {
+    filter: brightness(0.9);
+}
+
+.infoBox {
+    background-color: white;
+    font-size: small;
+    border: 1px solid;
+    border-radius: 8px;
+    padding: 5px;
+    max-width: 400px;
+}
+
+
 

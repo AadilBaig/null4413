@@ -4,6 +4,7 @@ import { useCookie } from '../global/CookieContext'
 import './pages.css'
 import SearchBar from "../components/searchBar"
 import axios from "axios"
+import { IoIosArrowRoundForward, IoIosArrowRoundUp } from "react-icons/io";
 
 const HomePage = () => {
   // Get cookie methods from our context api class "CookieContext"
@@ -28,6 +29,9 @@ const HomePage = () => {
 
   // filter catalogues
   const [filteredItems, setFilteredItems] = useState([]);
+
+  // text visibility when clicking 'view detail' button
+  const [visibleDetails, setVisibleDetails] = useState({});
 
   // fetches catalogues/items from data base on inital load
   useEffect(() => {
@@ -185,6 +189,13 @@ const HomePage = () => {
     setFilteredItems(filter);
   }
 
+  const toggleVisibility = (itemId) => {
+    setVisibleDetails((prevState) => ({
+      ...prevState,
+      [itemId]: !prevState[itemId] // if itemid not in visibility array, it adds it. Otherwise, it toggles it on/off via !prevState[itemId]
+    }));
+  }
+
   return (
     <div>
       <NavBar />
@@ -232,7 +243,7 @@ const HomePage = () => {
               <button onClick={handleSubmit}>Apply Changes</button>
           </div>
           <div className="right">
-              <div style={{display: "flex", gap: "20px", padding: "1rem", position: "sticky", top: "0"}}>
+              <div style={{display: "flex", gap: "20px", padding: "1rem", position: "sticky", top: "0", zIndex:"3"}}>
                 <SearchBar items={items} setItems={setItems} filteredItems={filteredItems} setFilteredItems={setFilteredItems}/>
                 <div style={{display: "flex", gap: "5px"}}>
                   Sort by name
@@ -253,34 +264,27 @@ const HomePage = () => {
               <div className="itemsContainer">
                 {filteredItems.map((item, index) => (
                   <div className="item" key={index}>
+                    <div className="placeHolder">Image Placeholder</div>
                     {item.Item1.name}
-                    <br />
-                    Category: {item.Item1.category}
-                    <br />
-                    Genre: {item.Item1.genre}
-                    <br />
-                    Brand: {item.Item1.brand}
-                    <br />
-                    Keywords: {item.Item1.keywords}
-                    <br />
-                    Price: {String(item.Item1.price.$numberDecimal || item.Item1.price)}
+                    <button className="addCartButton">Add to cart</button>
+                    <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
+                  
+                      {visibleDetails[item._id] && (<div className="infoBox"> 
+                      <strong>Description:</strong> <div>{item.Item1.description}</div>
+                      <strong>Category:</strong> {item.Item1.category}
+                      <br />
+                      <strong>Genre:</strong>{item.Item1.genre}
+                      <br />
+                      <strong>Brand:</strong> {item.Item1.brand}
+                      <br />
+                      <strong>Keywords:</strong> {item.Item1.keywords}
+                      <br />
+                      <strong>Price:</strong> {"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</div>)}
+                   
                   </div>
                 ))}
-                               {filteredItems.map((item, index) => (
-                  <div className="item" key={index}>
-                    {item.Item1.name}
-                    <br />
-                    Category: {item.Item1.category}
-                    <br />
-                    Genre: {item.Item1.genre}
-                    <br />
-                    Brand: {item.Item1.brand}
-                    <br />
-                    Keywords: {item.Item1.keywords}
-                    <br />
-                    Price: {String(item.Item1.price.$numberDecimal || item.Item1.price)}
-                  </div>
-                ))}
+                
+                
               </div>
 
           </div>

@@ -18,7 +18,7 @@ const NavBar = () => {
   }
 
   return (
-    <div style={{position: "sticky", top: "0"}}>
+    <div style={{position: "sticky", top: "0", zIndex: "3"}}>
         <nav className="navbar">
           <a href="/">Home</a>
           <div className="navbar-right">
