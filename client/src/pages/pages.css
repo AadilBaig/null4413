@@ -94,17 +94,18 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr); /* 7 equal width columns */
     margin-left: 1.5rem;        
-    margin-right: 1.5rem;        
+    margin-right: 1.5rem;  
 }
 
 .mainContainerGrid .left {
-    background-color: lightcoral;                 
+    /* background-color: lightcoral;                  */
     grid-column: span 1;
 }
 
 .mainContainerGrid .right {
-    background-color: lightblue;
+    /* background-color: lightblue; */
     grid-column: span 6;
+    position: relative; 
 }
 
 .radioBoxContainer {
@@ -112,5 +113,22 @@
     flex-direction: column;
     gap: 5px;
     padding: 1rem;
+}
+
+.itemsContainer {
+    position: absolute;   
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.item {
+    background-color: #f0f0f0;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
