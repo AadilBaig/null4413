@@ -162,12 +162,11 @@
 }
 
 .infoBox {
-    background-color: white;
     font-size: small;
-    border: 1px solid;
     border-radius: 8px;
     padding: 5px;
     max-width: 400px;
+    margin-top: 5px;
 }
 
 

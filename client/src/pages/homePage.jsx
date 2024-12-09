@@ -270,16 +270,17 @@ const HomePage = () => {
                     <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
                   
                       {visibleDetails[item._id] && (<div className="infoBox"> 
-                      <strong>Description:</strong> <div>{item.Item1.description}</div>
-                      <strong>Category:</strong> {item.Item1.category}
-                      <br />
-                      <strong>Genre:</strong>{item.Item1.genre}
-                      <br />
-                      <strong>Brand:</strong> {item.Item1.brand}
-                      <br />
-                      <strong>Keywords:</strong> {item.Item1.keywords}
-                      <br />
-                      <strong>Price:</strong> {"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</div>)}
+                      <strong>Description:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.description}</div>
+
+                      <strong>Category:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.category}</div>
+                    
+                      <strong>Genre:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.genre}</div>
+                      
+                      <strong>Brand:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.brand}</div>
+                   
+                      <strong>Keywords:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.keywords}</div>
+                      
+                      <strong>Price:</strong> <div>{"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</div></div>)}
                    
                   </div>
                 ))}
