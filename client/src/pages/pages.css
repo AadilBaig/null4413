@@ -169,5 +169,20 @@
     margin-top: 5px;
 }
 
+.rightFilterBars {
+display: flex;
+gap: 20px;
+padding: 1rem;
+position: sticky;
+top: 0;
+z-index: 3;
+  }
+  
+  @media (max-width: 640px) {
+    .rightFilterBars {
+      display: none;
+    }
+  }
+
 
 

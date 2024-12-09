@@ -243,7 +243,7 @@ const HomePage = () => {
               <button onClick={handleSubmit}>Apply Changes</button>
           </div>
           <div className="right">
-              <div style={{display: "flex", gap: "20px", padding: "1rem", position: "sticky", top: "0", zIndex:"3"}}>
+              <div className="rightFilterBars">
                 <SearchBar items={items} setItems={setItems} filteredItems={filteredItems} setFilteredItems={setFilteredItems}/>
                 <div style={{display: "flex", gap: "5px"}}>
                   Sort by name
