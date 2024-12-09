@@ -105,7 +105,6 @@
 .mainContainerGrid .right {
     /* background-color: lightblue; */
     grid-column: span 6;
-    position: relative; 
 }
 
 .radioBoxContainer {
@@ -116,12 +115,9 @@
 }
 
 .itemsContainer {
-    position: absolute;   
-    max-height: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    overflow-y: auto;
 }
 
 .item {
