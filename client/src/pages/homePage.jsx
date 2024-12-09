@@ -232,7 +232,7 @@ const HomePage = () => {
               <button onClick={handleSubmit}>Apply Changes</button>
           </div>
           <div className="right">
-              <div style={{display: "flex", gap: "20px", padding: "1rem"}}>
+              <div style={{display: "flex", gap: "20px", padding: "1rem", position: "sticky", top: "0"}}>
                 <SearchBar items={items} setItems={setItems} filteredItems={filteredItems} setFilteredItems={setFilteredItems}/>
                 <div style={{display: "flex", gap: "5px"}}>
                   Sort by name
@@ -252,6 +252,21 @@ const HomePage = () => {
               </div> 
               <div className="itemsContainer">
                 {filteredItems.map((item, index) => (
+                  <div className="item" key={index}>
+                    {item.Item1.name}
+                    <br />
+                    Category: {item.Item1.category}
+                    <br />
+                    Genre: {item.Item1.genre}
+                    <br />
+                    Brand: {item.Item1.brand}
+                    <br />
+                    Keywords: {item.Item1.keywords}
+                    <br />
+                    Price: {String(item.Item1.price.$numberDecimal || item.Item1.price)}
+                  </div>
+                ))}
+                               {filteredItems.map((item, index) => (
                   <div className="item" key={index}>
                     {item.Item1.name}
                     <br />
