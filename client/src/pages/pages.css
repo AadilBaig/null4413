@@ -178,11 +178,11 @@ top: 0;
 z-index: 3;
   }
   
-  @media (max-width: 640px) {
+  /* @media (max-width: 768px) {
     .rightFilterBars {
       display: none;
     }
-  }
+  } */
 
 
 
