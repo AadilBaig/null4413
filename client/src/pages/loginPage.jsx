@@ -38,11 +38,12 @@ const LoginPage = () => {
 
       // Login successful, now create a user session 
       const userSession = {
-        fistName: response.data.firstName,
+        firstName: response.data.firstName,
         lastName: response.data.lastName,
         email: response.data.email,
         accessToken: true,
-        role: response.data.role
+        role: response.data.role,
+        cart: response.data.cart
       }
       console.log(userSession);
       saveCookieData(userSession);
@@ -54,7 +55,7 @@ const LoginPage = () => {
     catch (error) {
       if (error.response.status === 401) {
         console.error('User does not exists: ', error);
-        setLoginError('Email is not registered, try again');
+        setLoginError('Email is not registered or password is incorrect');
       }
       return;
     }
@@ -70,6 +71,8 @@ const LoginPage = () => {
   };
 
   return (
+    <>
+     <a href="/" style={{position: "absolute", padding: "3rem"}}>Home</a>
     <div className="mainContainer">
       <div className="forumContainer">
         <div className="content">
@@ -102,6 +105,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

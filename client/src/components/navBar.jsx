@@ -25,7 +25,7 @@ const NavBar = () => {
           <FaRegUser size={"40"}/>
             <div>
               {
-                cookieData ? (<div><a style={{cursor: "pointer", textDecoration: "underline", color: "blue"}} onClick={logout}>Sign Out</a></div>) : (
+                cookieData && cookieData.accessToken ? (<div><a style={{cursor: "pointer", textDecoration: "underline", color: "blue"}} onClick={logout}>Sign Out</a></div>) : (
                 <>
                   <div><a href="/login">Sign In</a></div>
                   <div><a href="/register">Register</a></div>

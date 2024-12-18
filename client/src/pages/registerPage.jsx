@@ -76,6 +76,8 @@ const RegisterPage = () => {
   };
 
   return (
+    <>
+    <a href="/" style={{position: "absolute", padding: "3rem"}}>Home</a>
     <div className="mainContainer">
       <div className="forumContainer">
         <div className="content">
@@ -120,6 +122,7 @@ const RegisterPage = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

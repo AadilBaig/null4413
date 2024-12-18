@@ -8,7 +8,7 @@ import { IoIosArrowRoundForward, IoIosArrowRoundUp } from "react-icons/io";
 
 const HomePage = () => {
   // Get cookie methods from our context api class "CookieContext"
-  const { cookieData, saveCookieData, clearCookieData } = useCookie();
+  const { cookieData, saveCookieData, clearCookieData, appendToCart } = useCookie();
 
   const [categories, setCategories] = useState([{name: "Socks", isCheck: false}, {name: "Boots", isCheck: false},{name: "Sweater", isCheck: false},{name: "Pants", isCheck: false},{name: "Shorts", isCheck: false}, {name: "Dresses", isCheck: false}, {name: "Shirt", isCheck: false}, {name: "Jackets", isCheck: false},{name: "NoneCategory", isCheck: true}]);
   const [genres, setGenres] = useState([{name: "Men", isCheck: false}, {name: "Woman", isCheck: false}, {name: "NoneGenre", isCheck: true}]);
@@ -18,8 +18,7 @@ const HomePage = () => {
     {name: "Heymoments", isCheck: false}, {name: "Under Armour", isCheck: false}, {name: "Mountain Warehouse", isCheck: false}, {name: "NoneBrand", isCheck: true}]);
   
   // keeps track of user's chosen options from the dropdowns
-  const [selectedOptionsName, setSelectedOptionsName] = useState("none");
-  const [selectedOptionsPrice, setSelectedOptionsPrice] = useState("none");
+  const [selectedOptions, setSelectedOptions] = useState("featured");
 
   // keeps track of user's chosen options from the 3 sections
   const [chosenOptions, setChosenOptions] = useState({category: "", genre: "", brand: ""});
@@ -123,11 +122,43 @@ const HomePage = () => {
   }
 
   // method for handling name dropdown change
-  const handleDropdownChangeName = (e) => {
+  // const handleDropdownChangeName = (e) => {
+  //   const selectedValue = e.target.value;
+  //   setSelectedOptionsName(selectedValue);
+  //   if (selectedValue === "alphabetical") {
+  //     const filter = filteredItems.sort((a,b) => {
+  //       const nameA = a.Item1.name.toLowerCase();
+  //       const nameB = b.Item1.name.toLowerCase();
+      
+  //       if (nameA < nameB) return -1; // a comes before b
+  //       if (nameA > nameB) return 1;  // b comes before a
+  //       return 0; // Equal names 
+  //     });
+  //   setSelectedOptionsPrice("none");
+  //     setFilteredItems(filter);
+  //   }
+
+  // }
+
+   // method for handling dropdown change
+   const handleDropdownChange = (e) => {
     const selectedValue = e.target.value;
-    setSelectedOptionsName(selectedValue);
-    if (selectedValue === "name") {
-      const filter = filteredItems.sort((a,b) => {
+    setSelectedOptions(selectedValue);
+
+    let filter = null;
+   
+     if (selectedValue === "ascending"){
+      filter = filteredItems.sort(
+        (a, b) => parseFloat(a.Item1.price.$numberDecimal) - parseFloat(b.Item1.price.$numberDecimal)
+      );
+     }
+     else if (selectedValue === "descending") {
+      filter = filteredItems.sort(
+        (a, b) => parseFloat(b.Item1.price.$numberDecimal) - parseFloat(a.Item1.price.$numberDecimal)
+      );
+     }
+     else if (selectedValue === "alphabetical") {
+      filter = filteredItems.sort((a,b) => {
         const nameA = a.Item1.name.toLowerCase();
         const nameB = b.Item1.name.toLowerCase();
       
@@ -135,33 +166,20 @@ const HomePage = () => {
         if (nameA > nameB) return 1;  // b comes before a
         return 0; // Equal names 
       });
-    setSelectedOptionsPrice("none");
-      setFilteredItems(filter);
     }
-
+    if (filter) {
+      setFilteredItems(filter);
+      scrollToTop();
+    }
   }
 
-   // method for handling price dropdown change
-   const handleDropdownChangePrice = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedOptionsPrice(selectedValue);
-   
-     
-     if (selectedValue === "ascending"){
-      const filter = filteredItems.sort(
-        (a, b) => parseFloat(a.Item1.price.$numberDecimal) - parseFloat(b.Item1.price.$numberDecimal)
-      );
-      setFilteredItems(filter);
-     }
-     else if (selectedValue === "descending") {
-      const filter = filteredItems.sort(
-        (a, b) => parseFloat(b.Item1.price.$numberDecimal) - parseFloat(a.Item1.price.$numberDecimal)
-      );
-      setFilteredItems(filter);
-     }
-
-     setSelectedOptionsName("none");
-   }
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,  // Scroll to the top of the page
+      behavior: 'smooth'  // Optional: Adds smooth scrolling
+    });
+  };
+  
 
   // method used to filter items by category, genre, or brand
   const handleSubmit = () => {
@@ -194,6 +212,13 @@ const HomePage = () => {
       ...prevState,
       [itemId]: !prevState[itemId] // if itemid not in visibility array, it adds it. Otherwise, it toggles it on/off via !prevState[itemId]
     }));
+  }
+
+  const addItemToCart = (item) => {
+    if (cookieData) {
+      appendToCart(item);
+      console.log(cookieData.cart);
+    }
   }
 
   return (
@@ -246,18 +271,12 @@ const HomePage = () => {
               <div className="rightFilterBars">
                 <SearchBar items={items} setItems={setItems} filteredItems={filteredItems} setFilteredItems={setFilteredItems}/>
                 <div style={{display: "flex", gap: "5px"}}>
-                  Sort by name
-                  <select value={selectedOptionsName} onChange={handleDropdownChangeName}>
-                    <option value="none">None</option>
-                    <option value="name">Name</option>
-                  </select>
-                </div>
-                <div style={{display: "flex", gap: "5px"}}>
-                  Sort by price
-                  <select value={selectedOptionsPrice} onChange={handleDropdownChangePrice}>
-                    <option value="none">None</option>
-                    <option value="ascending">Ascending</option>
-                    <option value="descending">Descending</option>
+                  Sort by: 
+                  <select value={selectedOptions} onChange={handleDropdownChange}>
+                    <option value="featured">Featured</option>  
+                    <option value="alphabetical">Alphabetical</option>
+                    <option value="ascending">(Low to High)</option>
+                    <option value="descending">(High to Low)</option>
                   </select>
                 </div>
               </div> 
@@ -266,10 +285,10 @@ const HomePage = () => {
                   <div className="item" key={index}>
                     <div className="placeHolder">Image Placeholder</div>
                     {item.Item1.name}
-                    <button className="addCartButton">Add to cart</button>
-                    <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
+                    <button onClick={() => addItemToCart(item.Item1)}className="addCartButton">Add to cart</button>
+                    <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center", borderRadius: "8px", borderWidth: "1px"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
                   
-                      {visibleDetails[item._id] && (<div className="infoBox"> 
+                      {visibleDetails[item._id] && (<span className="infoBox"> 
                       <strong>Description:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.description}</div>
 
                       <strong>Category:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.category}</div>
@@ -280,7 +299,7 @@ const HomePage = () => {
                    
                       <strong>Keywords:</strong> <div style={{marginBottom: "7px"}}>{item.Item1.keywords}</div>
                       
-                      <strong>Price:</strong> <div>{"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</div></div>)}
+                      <strong>Price:</strong> <div>{"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</div></span>)}
                    
                   </div>
                 ))}
