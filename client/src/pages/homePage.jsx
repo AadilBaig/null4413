@@ -25,6 +25,9 @@ const HomePage = () => {
 
   // catalogues
   const [items, setItems] = useState([]);
+  
+  // check if user clicks add cart button
+  const [clickedAddCart, setClickedAddCart] = useState(false);
 
   // filter catalogues
   const [filteredItems, setFilteredItems] = useState([]);
@@ -195,20 +198,57 @@ const HomePage = () => {
     }));
   }
 
+  const addItemToCartInDB = async(item) => {
+    try {
+      const reqBody = {
+        email: cookieData.email,
+        item: item
+      }
+      await axios.post('http://localhost:3001/api/users/addItemToCart', reqBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        }});
+    }
+    catch (error) {
+      console.log("Failed to connect to addItemToCart api", error);
+    }
+
+  }
+
   const addItemToCart = (item) => {
     if (cookieData) {
+      // update user item cart in db
+      if (cookieData.role === "Customer") {
+        addItemToCartInDB(item);
+      }
       appendToCart(item);
       // clearCookieData();
+      setClickedAddCart(true);
     }
     else {
       // console.log("Cookie Data deleted ")
     }
   }
 
-  // useEffect(() => {
-  //   if (cookieData)
-  //     console.log(cookieData.cart);
-  // }, [cookieData])
+  useEffect(() => {
+    if (clickedAddCart) {
+      console.log(cookieData.cart);
+      alert("Added Item to Cart");
+      // setting to false
+      setClickedAddCart(prev => !prev);
+    }
+  }, [clickedAddCart])
+
+  // checks if item has already been added to cart
+  const isItemInCart = (item) => {
+    if (cookieData) {
+      for (let i = 0; i < cookieData.cart.length; i++) {
+        if (cookieData.cart[i].name === item.name)
+          return true;
+      }
+    }
+    return false;
+  }
 
   return (
     <div>
@@ -274,7 +314,8 @@ const HomePage = () => {
                   <div className="item" key={index}>
                     <div className="placeHolder">Image Placeholder</div>
                     {item.Item1.name}
-                    <button onClick={() => addItemToCart(item.Item1)}className="addCartButton">Add to cart</button>
+                    {isItemInCart(item.Item1) ? <button className="addCartButtonInActive">Add to cart</button> : <button onClick={() => addItemToCart(item.Item1)}className="addCartButton">Add to cart</button>}
+                    
                     <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center", borderRadius: "8px", borderWidth: "1px"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
                   
                       {visibleDetails[item._id] && (<span className="infoBox"> 

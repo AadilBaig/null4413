@@ -48,4 +48,16 @@ export default class UsersController {
 
     res.status(200).json(response);
   }
+
+  // Controller method for add item to user's cart
+  static async addItemToCart(req, res, next) {
+    const { email, item } = req.body;
+    const response = await UsersDAO.addItemToCart(email, item);
+
+    if (!response) {
+      res.status(500).json({ error: "Unexpected server error" });
+      return;
+    }
+    res.status(200).json(response);
+  }
 }

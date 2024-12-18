@@ -14,4 +14,7 @@ router.route("/findUser").get(UsersController.findUser);
 // register new user
 router.route("/register").post(UsersController.addUser);
 
+// add item to user's cart
+router.route("/addItemToCart").post(UsersController.addItemToCart);
+
 export default router;

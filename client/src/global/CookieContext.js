@@ -16,7 +16,8 @@ export const CookieProvider = ({ children }) => {
       setCookieData(JSON.parse(storedCookie));
     } else {
       // For guests, initialize the cookie data with an empty cart
-      setCookieData({ role: "guest", cart: [] });
+      const guestSession = { role: "guest", cart: [] };
+      saveCookieData(guestSession);
     }
   }, []);
 

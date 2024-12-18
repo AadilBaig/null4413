@@ -106,4 +106,31 @@ export default class UsersDAO {
       return false;
     }
   }
+
+  // method for adding item to user's cart
+  static async addItemToCart(email = null, item = null) {
+    if (!email || !item) {
+      console.log("Email or item is missing");
+      return false;
+    }
+
+    try {
+      // Find user by email and push item to the Items array
+      const result = await usersCollection.updateOne(
+        { email: email },
+        { $addToSet: { cart: item } }
+      );
+
+      if (result.modifiedCount === 0) {
+        console.log("No user found or item already exists in the cart.");
+        return false;
+      }
+
+      console.log("Item inserted to cart.");
+      return true;
+    } catch (error) {
+      console.error("Error adding item to cart: ", error);
+      return false;
+    }
+  }
 }

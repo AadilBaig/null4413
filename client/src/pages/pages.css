@@ -161,6 +161,14 @@
     filter: brightness(0.9);
 }
 
+.addCartButtonInActive {
+    margin: 5px;
+    padding: 10px;
+    border: 0px solid;
+    border-radius: 15px;
+    background-color: grey;
+}
+
 .infoBox {
     font-size: small;
     border-radius: 8px;
