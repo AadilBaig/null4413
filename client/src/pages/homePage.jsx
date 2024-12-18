@@ -121,25 +121,6 @@ const HomePage = () => {
     }
   }
 
-  // method for handling name dropdown change
-  // const handleDropdownChangeName = (e) => {
-  //   const selectedValue = e.target.value;
-  //   setSelectedOptionsName(selectedValue);
-  //   if (selectedValue === "alphabetical") {
-  //     const filter = filteredItems.sort((a,b) => {
-  //       const nameA = a.Item1.name.toLowerCase();
-  //       const nameB = b.Item1.name.toLowerCase();
-      
-  //       if (nameA < nameB) return -1; // a comes before b
-  //       if (nameA > nameB) return 1;  // b comes before a
-  //       return 0; // Equal names 
-  //     });
-  //   setSelectedOptionsPrice("none");
-  //     setFilteredItems(filter);
-  //   }
-
-  // }
-
    // method for handling dropdown change
    const handleDropdownChange = (e) => {
     const selectedValue = e.target.value;
@@ -217,9 +198,17 @@ const HomePage = () => {
   const addItemToCart = (item) => {
     if (cookieData) {
       appendToCart(item);
-      console.log(cookieData.cart);
+      // clearCookieData();
+    }
+    else {
+      // console.log("Cookie Data deleted ")
     }
   }
+
+  // useEffect(() => {
+  //   if (cookieData)
+  //     console.log(cookieData.cart);
+  // }, [cookieData])
 
   return (
     <div>

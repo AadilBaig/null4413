@@ -14,10 +14,9 @@ export const CookieProvider = ({ children }) => {
     // Checks if the cookie storing access token already exists for the current user
     if (storedCookie) {
       setCookieData(JSON.parse(storedCookie));
-    }
-    else {
-            // For guests, initialize the cookie data with an empty cart
-            setCookieData({ cart: [] });
+    } else {
+      // For guests, initialize the cookie data with an empty cart
+      setCookieData({ role: "guest", cart: [] });
     }
   }, []);
 
@@ -34,20 +33,20 @@ export const CookieProvider = ({ children }) => {
     setCookieData(null);
   };
 
-    // Method to append an item to the cart
-    const appendToCart = (newItem) => {
-      // Ensure cookieData is not null and has a cart property
-      if (cookieData) {
-        // Create a new object with the updated cart
-        const updatedCart = [...cookieData.cart, newItem];
-  
-        // Update the cookie data with the new cart
-        const updatedCookieData = { ...cookieData, cart: updatedCart };
-  
-        // Save updated data to cookie and update state
-        saveCookieData(updatedCookieData);
-      }
-    };
+  // Method to append an item to the cart
+  const appendToCart = (newItem) => {
+    // Ensure cookieData is not null and has a cart property
+    if (cookieData) {
+      // Create a new object with the updated cart
+      const updatedCart = [...cookieData.cart, newItem];
+
+      // Update the cookie data with the new cart
+      const updatedCookieData = { ...cookieData, cart: updatedCart };
+
+      // Save updated data to cookie and update state
+      saveCookieData(updatedCookieData);
+    }
+  };
 
   return (
     <CookieContext.Provider
