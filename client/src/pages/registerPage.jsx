@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import './pages.css'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
+import { useCookie } from '../global/CookieContext'
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -11,6 +12,9 @@ const RegisterPage = () => {
   const [emailError, setEmailError] = useState('');
   const [registerError, setRegisterError] = useState('');
   const navigate = useNavigate(); // navigation functionality
+
+  // Get cookie methods from our context api class "CookieContext"
+  const { cookieData } = useCookie();
 
   const handleSubmit = async(e) => {
     e.preventDefault(); // Prevent form from submitting and reloading the page
@@ -48,7 +52,8 @@ const RegisterPage = () => {
       firstName: firstName,
       lastName: lastName,
       email: email,
-      password: password
+      password: password,
+      cart: cookieData ? cookieData.cart : []
     }
 
     // Post new user data to data base

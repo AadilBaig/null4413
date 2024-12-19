@@ -33,12 +33,13 @@ export default class UsersController {
 
   // Controller method for adding a new user
   static async addUser(req, res, next) {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, cart } = req.body;
     const response = await UsersDAO.addUser({
       firstName,
       lastName,
       email,
       password,
+      cart,
     });
 
     if (!response) {
@@ -53,6 +54,21 @@ export default class UsersController {
   static async addItemToCart(req, res, next) {
     const { email, itemName, qty } = req.body;
     const response = await UsersDAO.addItemToCart(email, itemName, qty);
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller method for updating user's cart
+  static async updateCart(req, res, next) {
+    const { email, cart } = req.body;
+    console.log(cart);
+    console.log(email);
+
+    const response = await UsersDAO.updateCart(email, cart);
 
     if (!response) {
       res.status(500).json(response);

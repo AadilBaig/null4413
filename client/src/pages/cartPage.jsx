@@ -20,6 +20,7 @@ const CartPage = () => {
     // cart items of visitor (containing the actual item objects)
     const [cartItems, setCartItems] = useState([]);
 
+    // fetch user's cart from database if they are logged in
     useEffect(() => {
         if (!cookieData || !cookieData.cart || cookieData.cart.length === 0) {
             console.log("Cookie data or cart is empty, skipping fetch.");
@@ -71,6 +72,36 @@ const CartPage = () => {
         
 
     }, [cookieData])
+
+    // updates user's current cart to the db
+    useEffect(() => {
+      if (!cookieData || !cookieData.cart || cookieData.cart.length === 0) {
+        console.log("Cookie data or cart is empty, skipping fetch.");
+        return;  // Exit early if cookieData or cart is not available
+      }
+
+      const postCartItems = async() => {
+        const reqBody = {
+          email: cookieData.email,
+          cart: cookieData.cart
+        }
+        try {
+          const response = await axios.post(`http://localhost:3001/api/users/updateCart`, reqBody, {
+            headers: {
+              'Content-Type': 'application/json',
+            }}
+          );
+        }
+        catch {
+  
+        }
+      }
+
+      // Invoke
+      postCartItems();
+    }, [cookieData])
+
+
 
     const handleQtyEnter = (itemName, qtyValue, key ,itemInventoryQty) => {
 

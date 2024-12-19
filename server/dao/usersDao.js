@@ -76,6 +76,7 @@ export default class UsersDAO {
     lastName = null,
     email = null,
     password = null,
+    cart = null,
   }) {
     let user;
     let query = {};
@@ -86,7 +87,7 @@ export default class UsersDAO {
       query.lastName = lastName;
       query.email = email;
       query.password = password;
-      (query.cart = []),
+      (query.cart = cart ? cart : []),
         (query.creditCard = ""),
         (query.shipAddr = ""),
         (query.role = "Customer");
@@ -99,6 +100,8 @@ export default class UsersDAO {
         console.log("Failed to add user");
         return false;
       }
+
+      console.log("User created successfully.");
 
       return true;
     } catch (error) {
@@ -135,6 +138,32 @@ export default class UsersDAO {
     } catch (error) {
       console.error("Error adding item to cart: ", error);
       return false;
+    }
+  }
+
+  // method for updating user's cart
+  static async updateCart(email = null, cart = null) {
+    if (!cart || !email) {
+      console.log("Cart is empty or email doesn't exists.");
+      return false;
+    }
+    try {
+      // Update user's cart with new one
+      const result = await usersCollection.updateOne(
+        { email: email },
+        { $set: { cart: cart } }
+      );
+
+      // Check if the user's cart was updated
+      if (result.modifiedCount === 0) {
+        console.log("No user found or cart update failed");
+        return false;
+      }
+
+      console.log("User's cart successfully updated.");
+      return true;
+    } catch (error) {
+      console.error("Error updating user's cart.", error);
     }
   }
 }

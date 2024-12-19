@@ -17,4 +17,6 @@ router.route("/register").post(UsersController.addUser);
 // add item to user's cart
 router.route("/addItemToCart").post(UsersController.addItemToCart);
 
+router.route("/updateCart").post(UsersController.updateCart);
+
 export default router;
