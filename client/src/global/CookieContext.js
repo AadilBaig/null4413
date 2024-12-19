@@ -43,15 +43,45 @@ export const CookieProvider = ({ children }) => {
 
       // Update the cookie data with the new cart
       const updatedCookieData = { ...cookieData, cart: updatedCart };
-
       // Save updated data to cookie and update state
+      saveCookieData(updatedCookieData);
+    }
+  };
+
+  // Method to updateQuantity of an item in a cart
+  const updateItemQtyInCart = (data) => {
+    if (cookieData) {
+      // Update the cart by mapping over the items
+      // console.log(data.itemName + " " + data.quantity);
+      const updatedCart = cookieData.cart.map((cartItem) => {
+        if (cartItem.name === data.itemName) {
+          // Return a new object with updated quantity
+          return {
+            ...cartItem,
+            qty: data.quantity,
+          };
+        }
+        // Return the item unchanged if it doesn't match
+        return cartItem;
+      });
+
+      // Create a new cookieData object with the updated cart
+      const updatedCookieData = { ...cookieData, cart: updatedCart };
+
+      // Save the updated cookie data
       saveCookieData(updatedCookieData);
     }
   };
 
   return (
     <CookieContext.Provider
-      value={{ cookieData, saveCookieData, clearCookieData, appendToCart }}
+      value={{
+        cookieData,
+        saveCookieData,
+        clearCookieData,
+        appendToCart,
+        updateItemQtyInCart,
+      }}
     >
       {children}
     </CookieContext.Provider>

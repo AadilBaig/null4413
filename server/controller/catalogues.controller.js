@@ -12,4 +12,18 @@ export default class CataloguesController {
 
     res.status(200).json(response);
   }
+
+  // Get cart items
+  static async getCartItems(req, res, next) {
+    const { cart } = req.body;
+    // console.log(cart)
+    const response = await CataloguesDAO.getCartItems(cart);
+
+    if (!response) {
+      res.status(404).json({ error: "Not Found" });
+      return;
+    }
+
+    res.status(200).json(response);
+  }
 }

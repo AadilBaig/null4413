@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.route("/getItems").get(CataloguesController.getItems);
 
+router.route("/getCartItems").post(CataloguesController.getCartItems);
+
 export default router;

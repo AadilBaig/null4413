@@ -35,6 +35,9 @@ const HomePage = () => {
   // text visibility when clicking 'view detail' button
   const [visibleDetails, setVisibleDetails] = useState({});
 
+  // cart items of visitor (containing the actual item objects)
+  const [cartItems, setCartItems] = useState([]);
+
   // fetches catalogues/items from data base on inital load
   useEffect(() => {
     // console.log(JSON.stringify(cookieData));
@@ -53,9 +56,47 @@ const HomePage = () => {
         console.error("Failed to fetch all items: ", error)
       }
     }
+
     // invoke 
     fetchItems();
   }, []);
+
+  useEffect(() => {
+    if (!cookieData || !cookieData.cart || cookieData.cart.length === 0) {
+      console.log("Cookie data or cart is empty, skipping fetch.");
+      return;  // Exit early if cookieData or cart is not available
+    }
+    const fetchCartItems = async() => {
+      
+      const reqBody =  {
+        cart: cookieData ? cookieData.cart : []
+      }
+
+      // console.log(reqBody.cart)
+
+      try {
+        const response = await axios.post(`http://localhost:3001/api/catalogues/getCartItems`, reqBody, {
+          headers: {
+            'Content-Type': 'application/json',
+          }}
+        );
+
+        if (!response.data) {
+          console.log("Failed to fetch cart items");
+          return;
+        }
+
+        console.log(response.data);
+
+        setCartItems(response.data)
+        
+      }
+      catch (error) {
+        console.error("Error in calling the api", error)
+      }
+    }
+    fetchCartItems();
+  }, [cookieData])
 
   // Handle checkbox changes for categories, genres, and brands
   const handleRadioBoxChange = (e, type) => {
@@ -202,12 +243,16 @@ const HomePage = () => {
     try {
       const reqBody = {
         email: cookieData.email,
-        item: item
+        itemName: item,
+        qty: 1
       }
-      await axios.post('http://localhost:3001/api/users/addItemToCart', reqBody, {
+      const response = await axios.post('http://localhost:3001/api/users/addItemToCart', reqBody, {
         headers: {
           'Content-Type': 'application/json',
         }});
+      
+      if (response.data)
+        appendToCart({name: item, qty: 1});
     }
     catch (error) {
       console.log("Failed to connect to addItemToCart api", error);
@@ -217,16 +262,16 @@ const HomePage = () => {
 
   const addItemToCart = (item) => {
     if (cookieData) {
+      // console.log(cookieData.cart)
       // update user item cart in db
       if (cookieData.role === "Customer") {
         addItemToCartInDB(item);
       }
-      appendToCart(item);
+      else {
+        appendToCart({name: item, qty: 1});
+      }
       // clearCookieData();
       setClickedAddCart(true);
-    }
-    else {
-      // console.log("Cookie Data deleted ")
     }
   }
 
@@ -241,9 +286,11 @@ const HomePage = () => {
 
   // checks if item has already been added to cart
   const isItemInCart = (item) => {
-    if (cookieData) {
+    // clearCookieData();
+    if (cookieData && cookieData.cart) {
+      // console.log(cookieData.cart)
       for (let i = 0; i < cookieData.cart.length; i++) {
-        if (cookieData.cart[i].name === item.name)
+        if (cookieData.cart[i].name === item)
           return true;
       }
     }
@@ -314,7 +361,7 @@ const HomePage = () => {
                   <div className="item" key={index}>
                     <div className="placeHolder">Image Placeholder</div>
                     {item.Item1.name}
-                    {isItemInCart(item.Item1) ? <button className="addCartButtonInActive">Add to cart</button> : <button onClick={() => addItemToCart(item.Item1)}className="addCartButton">Add to cart</button>}
+                    {isItemInCart(item.Item1.name) ? <button className="addCartButtonInActive">Add to cart</button> : <button onClick={() => addItemToCart(item.Item1.name)}className="addCartButton">Add to cart</button>}
                     
                     <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center", borderRadius: "8px", borderWidth: "1px"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
                   

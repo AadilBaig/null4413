@@ -199,4 +199,38 @@ width: 800px;
   }
 
 
+/* Used for cart page */
+.mainContainerCart {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.cartContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 calc(70% - 16px);
+    padding-top: 1rem;
+    gap: 20px;
+}
+
+.checkOutContainer {
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    flex: 0 0 calc(15%);
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    height: 150px;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartItem {
+    display: flex;
+    gap: 20px;
+}
+
 

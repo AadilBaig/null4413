@@ -108,17 +108,21 @@ export default class UsersDAO {
   }
 
   // method for adding item to user's cart
-  static async addItemToCart(email = null, item = null) {
-    if (!email || !item) {
-      console.log("Email or item is missing");
+  static async addItemToCart(email = null, itemName = null, qty = null) {
+    if (!email || !itemName || !qty) {
+      console.log("Email, item, or quantity is missing");
       return false;
     }
 
     try {
+      const cartItem = {
+        itemName: itemName,
+        qty: qty,
+      };
       // Find user by email and push item to the Items array
       const result = await usersCollection.updateOne(
         { email: email },
-        { $addToSet: { cart: item } }
+        { $addToSet: { cart: cartItem } }
       );
 
       if (result.modifiedCount === 0) {
