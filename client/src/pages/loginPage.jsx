@@ -49,7 +49,11 @@ const LoginPage = () => {
       saveCookieData(userSession);
 
       // redirect to home page
-      navigate('/');
+      if(userSession.role == "admin"){
+        navigate('/admin');
+      }else {
+        navigate('/');
+      }
 
     }
     catch (error) {
