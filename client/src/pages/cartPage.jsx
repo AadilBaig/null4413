@@ -146,7 +146,7 @@ const CartPage = () => {
                 {cookieData && cartItems.map((item) => (
                     <div key={item.name}>
                     <div className="cartItem">
-                        <div className="placeHolder">Image Placeholder</div>
+                        <div className="placeHolder" style={{flexShrink: "0"}}>Image Placeholder</div>
                         <div style={{display: "flex", flexDirection: "column"}}>
                             <div style={{fontSize: "large", fontWeight: "bold"}}>{item.name}</div>
                             <div>Price: ${item.price.$numberDecimal}</div>
