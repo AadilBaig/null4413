@@ -36,7 +36,6 @@ export default class CataloguesDAO {
     if (!cart || cart.length === 0) {
       return [];
     }
-
     const itemNames = cart.map((item) => item.name); // Get names of items from the cart
     console.log("Cart Item Names:", itemNames);
 

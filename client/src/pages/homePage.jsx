@@ -72,7 +72,7 @@ const HomePage = () => {
         cart: cookieData ? cookieData.cart : []
       }
 
-      // console.log(reqBody.cart)
+      console.log(reqBody.cart)
 
       try {
         const response = await axios.post(`http://localhost:3001/api/catalogues/getCartItems`, reqBody, {
@@ -289,7 +289,7 @@ const HomePage = () => {
     // clearCookieData();
     if (cookieData && cookieData.cart) {
       // console.log(cookieData.cart)
-      for (let i = 0; i < cookieData.cart.length; i++) {
+      for (var i = 0; i < cookieData.cart.length; i++) {
         if (cookieData.cart[i].name === item)
           return true;
       }

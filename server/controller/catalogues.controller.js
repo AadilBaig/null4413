@@ -16,7 +16,7 @@ export default class CataloguesController {
   // Get cart items
   static async getCartItems(req, res, next) {
     const { cart } = req.body;
-    // console.log(cart)
+    console.log(cart);
     const response = await CataloguesDAO.getCartItems(cart);
 
     if (!response) {

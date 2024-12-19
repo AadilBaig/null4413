@@ -116,7 +116,7 @@ export default class UsersDAO {
 
     try {
       const cartItem = {
-        itemName: itemName,
+        name: itemName,
         qty: qty,
       };
       // Find user by email and push item to the Items array
