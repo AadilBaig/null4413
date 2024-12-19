@@ -65,10 +65,24 @@ export default class UsersController {
   // Controller method for updating user's cart
   static async updateCart(req, res, next) {
     const { email, cart } = req.body;
-    console.log(cart);
-    console.log(email);
+    // console.log(cart);
+    // console.log(email);
 
     const response = await UsersDAO.updateCart(email, cart);
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller method for getting user ID
+  static async getID(req, res, next) {
+    const email = req.query.email;
+    console.log(email);
+
+    const response = await UsersDAO.getID(email);
 
     if (!response) {
       res.status(500).json(response);

@@ -10,9 +10,13 @@ const CartPage = () => {
     // Get cookie methods from our context api class "CookieContext"
     const { cookieData, saveCookieData, clearCookieData, appendToCart, updateItemQtyInCart } = useCookie();
 
+    // Keeps track of item names and current user inputed quantity in the cart
     const [qtyInputValues, setQtyInputValues] = useState({});
 
     const [price, setPrice] = useState(0);
+
+    // switch to check if user wants to checkout
+    const [isCheckingOut, setIsCheckingOut] = useState(false);
 
     // navigate
     const navigate = useNavigate();
@@ -92,16 +96,64 @@ const CartPage = () => {
             }}
           );
         }
-        catch {
-  
+        catch (error){
+          console.error("Error in posting cart", error)
         }
       }
 
       // Invoke
       postCartItems();
-    }, [cookieData])
+    }, [cookieData]);
 
+        // Calculate the total price when the cart or quantities change
+      useEffect(() => {
+        if (!cookieData || !cookieData.cart || cookieData.cart.length === 0 || cartItems.length === 0) {
+            console.log("Cookie data or cart is empty, skipping fetch.");
+            return;  // Exit early if cookieData or cart is not available
+          }
+      
+            const totalPrice = cartItems.reduce((sum, item) => sum + (item.price.$numberDecimal * (qtyInputValues[item.name] || 1)), 0);
+            // console.log(totalPrice)
+            setPrice(isNaN(totalPrice) ? 0 : totalPrice);
+          
+      }, [cookieData, qtyInputValues, cartItems]);
 
+      // if user checking out, it will fetch user's unique id in the database in order to use it as a path param for the check out page url
+      useEffect(() => {
+        if (!cookieData) {
+          console.log("Cookie data is empty, skipping fetch.");
+          return;  // Exit early if cookieData or cart is not available
+        }
+        else if (!isCheckingOut)
+          return;
+
+        const fetchUserID = async() => {
+          console.log(cookieData.email)
+          try {
+            const response = await axios.get(`http://localhost:3001/api/users/getID?email=${cookieData.email}`, {
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+            });
+
+            const data = response.data;
+
+            if (!data) {
+              console.log("Failed to fetch user id");
+              return;
+            }
+
+            navigate(`/checkout/${data}`);
+          }
+          catch (error) {
+            console.error("Error in fetching user id", error);
+          }
+        }
+
+        // invoke
+        fetchUserID();
+        
+      }, [isCheckingOut])
 
     const handleQtyEnter = (itemName, qtyValue, key ,itemInventoryQty) => {
 
@@ -145,28 +197,13 @@ const CartPage = () => {
     //         console.log(cookieData.cart)
     // }, [qtyInputValues])
 
-
-    // Calculate the total price when the cart or quantities change
-    useEffect(() => {
-        if (!cookieData || !cookieData.cart || cookieData.cart.length === 0 || cartItems.length === 0) {
-            console.log("Cookie data or cart is empty, skipping fetch.");
-            return;  // Exit early if cookieData or cart is not available
-          }
-      
-            const totalPrice = cartItems.reduce((sum, item) => sum + (item.price.$numberDecimal * (qtyInputValues[item.name] || 1)), 0);
-            // console.log(totalPrice)
-            setPrice(isNaN(totalPrice) ? 0 : totalPrice);
-        
-    }, [cookieData, qtyInputValues, cartItems]);
-
     // checks user's permission in order to determine if they can proceed to checkout
     const checkVisitorPermissions = () => {
         if (cookieData && cookieData.role === 'guest'){
             alert('Must be signed in to checkout.');
             return;
         }
-
-        navigate('/');
+        setIsCheckingOut(true);
     }
 
   return (

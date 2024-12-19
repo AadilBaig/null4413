@@ -3,6 +3,7 @@ import HomePage from "./pages/homePage";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
 import CartPage from "./pages/cartPage";
+import CheckoutPage from "./pages/checkoutPage";
 import { CookieProvider } from "./global/CookieContext";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout/:id" element={<CheckoutPage />} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -164,6 +164,31 @@ export default class UsersDAO {
       return true;
     } catch (error) {
       console.error("Error updating user's cart.", error);
+      return false;
+    }
+  }
+
+  // method for getting user ID
+  static async getID(email = null) {
+    if (!email) {
+      console.log("Email is required");
+      return null;
+    }
+
+    try {
+      // Find user by email
+      const user = await usersCollection.findOne({ email: email });
+
+      // Check if the user exists
+      if (!user) {
+        console.log("User not found.");
+        return null;
+      }
+
+      return user._id;
+    } catch (error) {
+      console.error("Error finding user ID ", error);
+      return false;
     }
   }
 }
