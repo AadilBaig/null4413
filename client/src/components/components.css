@@ -27,3 +27,92 @@
 /* Dynamic paging */
 /* .... */
 
+.adminTab-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.adminTab-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.adminTab-content th,
+.adminTab-content td {
+    padding: 12px;
+    text-align: left;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+.adminTab-content th {
+    background-color: #4CAF50;
+
+    color: white;
+
+}
+
+.adminTab-content tr:hover {
+    background-color: #f1f1f1;
+
+}
+
+.adminTab-content td {
+    background-color: #fff;
+
+}
+
+.adminContent {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 100px;
+    padding-right: 100px;
+    min-height: 100vh;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.adminContent .tabs {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.adminContent .tabs button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.adminContent .tabs button:hover {
+    background-color: #45a049;
+}
+
+.adminContent .tabs .active-tab {
+    background-color: #3e8e41;
+    font-weight: bold;
+}
+
+button.viewOrder{
+    background-color: rgb(126, 126, 126);
+    border: none;
+    color: white;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+li.productList{
+    border-bottom: solid 1px rgb(143, 173, 172);
+}
