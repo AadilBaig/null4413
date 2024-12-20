@@ -76,7 +76,7 @@ const HomePage = () => {
       console.log(reqBody.cart)
 
       try {
-        const response = await axios.post(`http://localhost:3001/api/catalogues/getCartItems`, reqBody, {
+        const response = await axios.post(`https://null4413-backend.onrender.com/api/catalogues/getCartItems`, reqBody, {
           headers: {
             'Content-Type': 'application/json',
           }}
@@ -248,7 +248,7 @@ const HomePage = () => {
         qty: 1
       }
       console.log(cookieData.cart)
-      const response = await axios.post('http://localhost:3001/api/users/addItemToCart', reqBody, {
+      const response = await axios.post('https://null4413-backend.onrender.com/api/users/addItemToCart', reqBody, {
         headers: {
           'Content-Type': 'application/json',
         }});

@@ -10,7 +10,7 @@ const InventoryManagement = () => {
     useEffect(() => {
         const fetchInventory = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/users/getInventory', {
+                const response = await axios.get('https://null4413-backend.onrender.com/api/users/getInventory', {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 setInventory(response.data);
@@ -27,7 +27,7 @@ const InventoryManagement = () => {
     const updateQuantity = async (itemId, newQuantity) => {
         try {
             const response = await axios.post(
-                `http://localhost:3001/api/users/updateQuantity?`,
+                `https://null4413-backend.onrender.com/api/users/updateQuantity?`,
                 {
                     itemId: itemId,
                     quantity: newQuantity,

@@ -30,7 +30,7 @@ const LoginPage = () => {
 
     // fetch user in database
     try {
-      const response = await axios.get(`http://localhost:3001/api/users/findUser?name=${email}&password=${password}`, {
+      const response = await axios.get(`https://null4413-backend.onrender.com/api/users/findUser?name=${email}&password=${password}`, {
         headers: {
           'Content-Type': 'application/json',
         }

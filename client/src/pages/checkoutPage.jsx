@@ -47,7 +47,7 @@ const CheckoutPage = () => {
         // if user is permitted then fetch user's address (including their credit care number)
         const fetchUserAddress = async() => {
             try {
-                const response = await axios.get(`http://localhost:3001/api/users/getAddress?id=${id}`, {
+                const response = await axios.get(`https://null4413-backend.onrender.com/api/users/getAddress?id=${id}`, {
                     headers: {
                       'Content-Type': 'application/json',
                     }
@@ -105,7 +105,7 @@ const CheckoutPage = () => {
                 const reqBody = {
                     email: cookieData.email
                 }
-                const response = await axios.post(`http://localhost:3001/api/users/resetCart`,reqBody, {
+                const response = await axios.post(`https://null4413-backend.onrender.com/api/users/resetCart`,reqBody, {
                     headers: {
                       'Content-Type': 'application/json',
                     }
@@ -139,7 +139,7 @@ const CheckoutPage = () => {
                 totalPrice: price,
                 orderList: cookieData ? cookieData.cart : []
             }
-            const response = await axios.post(`http://localhost:3001/api/users/addOrder`, reqBody, {
+            const response = await axios.post(`https://null4413-backend.onrender.com/api/users/addOrder`, reqBody, {
                 headers: {
                   'Content-Type': 'application/json',
                 }
@@ -169,7 +169,7 @@ const CheckoutPage = () => {
                 orderList: cookieData.cart
             }
             console.log(cookieData.cart);
-            const response = await axios.post(`http://localhost:3001/api/users/updateInventory`, reqBody, {
+            const response = await axios.post(`https://null4413-backend.onrender.com/api/users/updateInventory`, reqBody, {
                 headers: {
                 'Content-Type': 'application/json',
                 }
@@ -208,7 +208,7 @@ const CheckoutPage = () => {
                         creditcard: cardNum
                     }
 
-                    const response = await axios.post(`http://localhost:3001/api/users/addAddress`, reqBody, {
+                    const response = await axios.post(`https://null4413-backend.onrender.com/api/users/addAddress`, reqBody, {
                         headers: {
                           'Content-Type': 'application/json',
                         }
@@ -248,7 +248,7 @@ const CheckoutPage = () => {
                         phoneNum: phone,
                         creditcard: cardNum
                     }
-                    const response = await axios.post(`http://localhost:3001/api/users/updateAddress`, reqBody, {
+                    const response = await axios.post(`https://null4413-backend.onrender.com/api/users/updateAddress`, reqBody, {
                         headers: {
                         'Content-Type': 'application/json',
                         }
