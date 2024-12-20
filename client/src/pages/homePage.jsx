@@ -352,8 +352,8 @@ const HomePage = () => {
                   <select value={selectedOptions} onChange={handleDropdownChange}>
                     <option value="featured">Featured</option>  
                     <option value="alphabetical">Alphabetical</option>
-                    <option value="ascending">(Low to High)</option>
-                    <option value="descending">(High to Low)</option>
+                    <option value="ascending">Price (Low to High)</option>
+                    <option value="descending">Price (High to Low)</option>
                   </select>
                 </div>
               </div> 

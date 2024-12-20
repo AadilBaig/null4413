@@ -124,10 +124,10 @@
 .item {
     flex: 0 1 calc(33.33% - 16px); /* Ensures 3 items per row with gap considered */
     box-sizing: border-box; /* To account for padding and gap in the width */
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
     padding: 16px;
     text-align: center;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -139,14 +139,20 @@
 .placeHolder {
     width: 300px;
     height: 300px;
-    background-color: gray;
+    background-color: transparent;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 16px;
     font-family: Arial, sans-serif;
-    border: 1px solid #ccc; 
+    
+}
+
+.placeHolder img {
+    width: 100%;  
+    height: auto;  
+    object-fit: cover
 }
 
 .addCartButton{
