@@ -45,8 +45,26 @@ const SalesHistory = () => {
 
 
     const filteredOrders = orders.filter(order => {
-        const customerMatch = customerFilter ? customers[order.FK_CustomerID]?.toLowerCase().includes(customerFilter.toLowerCase()) : true;
-        const productMatch = productFilter ? (order.productName && JSON.parse(order.productName).some(product => product.name.toLowerCase().includes(productFilter.toLowerCase()))) : true;
+        const customerMatch = customerFilter
+            ? customers[order.FK_CustomerID]?.toLowerCase().includes(customerFilter.toLowerCase())
+            : true;
+
+        const productMatch = productFilter
+            ? (
+                order.productName &&
+                (() => {
+                    try {
+                        const products = JSON.parse(order.productName);
+                        return products.some(product =>
+                            product?.name?.toLowerCase().includes(productFilter.toLowerCase())
+                        );
+                    } catch (e) {
+                        console.error("Failed to parse productName:", order.productName, e);
+                        return false;
+                    }
+                })()
+            )
+            : true;
         const dateMatch = dateFilter ? new Date(order.Date).toLocaleDateString() === new Date(dateFilter).toLocaleDateString() : true;
 
         return customerMatch && productMatch && dateMatch;
