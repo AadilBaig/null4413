@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import NavBar from '../components/navBar';
 import SalesHistory from '../components/salesHistory';
 import CustomerAccounts from '../components/customerAccounts';
 import InventoryManagement from '../components/inventoryManagement';
 import './pages.css';
 import '../components/components.css';
+import { useCookie } from '../global/CookieContext'
+import { useNavigate } from 'react-router-dom'
 
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('sales');
+
+      // Get cookie methods from our context api class "CookieContext"
+      const { cookieData } = useCookie();
+
+      const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!cookieData)
+            return;
+        if (cookieData.role !== 'admin'){
+            alert("You don't have admin permission");
+            navigate("/");
+        }
+    }, [cookieData])
 
     return (
         <div>
