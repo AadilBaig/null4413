@@ -58,5 +58,17 @@ export default class AdminController {
         }
     }
 
+    static async getUsersOrders(req, res, next){
+        const response = await adminDAO.getUsersOrders();
+
+        // Unable to find user
+        if (!response) {
+            res.status(401).json({ error: "Not Found" });
+            return;
+        }
+        console.log(response)
+        res.status(200).json(response);
+    }
+
 
 }

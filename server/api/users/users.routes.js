@@ -50,4 +50,6 @@ router.route("/addOrder").post(UsersController.addOrder);
 // post to reset user cart
 router.route("/resetCart").post(UsersController.resetCart);
 
+router.route("/getUsersOrders").get(AdminController.getUsersOrders);
+
 export default router;

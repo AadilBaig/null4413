@@ -37,7 +37,7 @@ const CustomerAccounts = () => {
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Address</th>
+                        {/* <th>Address</th> */}
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -46,12 +46,12 @@ const CustomerAccounts = () => {
                         <tr key={customer.id}>
                             <td>{customer.firstName + " " + customer.lastName}</td>
                             <td>{customer.email}</td>
-                            <td>{customer.address}</td>
+                            {/* <td>{customer.address}</td> */}
                             <td>
-                                {/* Uncomment the button below to enable updating customer info */}
-                                {/* <button onClick={() => updateCustomerInfo(customer.id, { address: 'New Address' })}>
-                                    Update
-                                </button> */}
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <button className='viewOrder'>View Past Orders</button>
+                                    <button className='viewOrder'>Update/View Information</button>
+                                </div>
                             </td>
                         </tr>
                     ))}

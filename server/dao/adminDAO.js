@@ -85,4 +85,16 @@ export default class adminDAO {
             return false;
         }
     }
+
+    static async getUsersOrders(userId){
+        try {
+            const orders = await ordersCollection.find({ userId: userId }).toArray();
+            return orders;
+        } catch (error) {
+            console.error(
+                "Unable to get users orders ",
+                error
+            );
+        }
+    }
 }

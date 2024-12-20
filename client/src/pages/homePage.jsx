@@ -360,7 +360,8 @@ const HomePage = () => {
               <div className="itemsContainer">
                 {filteredItems.map((item, index) => (
                   <div className="item" key={index}>
-                    <div className="placeHolder">Image Placeholder</div>
+                    <div className="placeHolder"><img src={item.img_link}></img></div>
+                    {/* <div className="placeHolder">Image Placeholder</div> */}
                     {item.Item1.name}
                     <div><strong>Price:</strong> <span>{"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</span> </div>
                     {isItemInCart(item.Item1.name) ? <button className="addCartButtonInActive">Add to cart</button> : <button onClick={() => addItemToCart(item.Item1.name)}className="addCartButton">Add to cart</button>}
