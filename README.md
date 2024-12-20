@@ -1,6 +1,12 @@
 # null4413
 EECS4413
 
+admin credentials:
+
+email - admin@gmail.com
+
+password - admin
+
 # Getting started
 Clone repo 
 
