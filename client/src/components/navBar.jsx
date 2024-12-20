@@ -22,6 +22,7 @@ const NavBar = () => {
         <nav className="navbar">
           <a href="/">Home</a>
           <div className="navbar-right">
+          {cookieData && cookieData.role === 'admin' ? (<div><a href="/admin">Admin Panel</a></div>) : null }
           <FaRegUser size={"40"}/>
             <div>
               {
