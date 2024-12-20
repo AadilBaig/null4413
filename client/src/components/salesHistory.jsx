@@ -13,7 +13,7 @@ const SalesHistory = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get("https://null4413-backend.onrender.com/api/users/getAllOrders", {
+                const response = await axios.get("http://localhost:3001/api/users/getAllOrders", {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 setOrders(response.data);
@@ -26,7 +26,7 @@ const SalesHistory = () => {
         };
 
         const fetchCustomers = async () => {
-            const response = await axios.get('https://null4413-backend.onrender.com/api/users/getAllUsers');
+            const response = await axios.get('http://localhost:3001/api/users/getAllUsers');
             const customerMap = {};
             response.data.forEach(customer => {
                 customerMap[customer._id] = customer.firstName + " " + customer.lastName;

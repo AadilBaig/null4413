@@ -37,7 +37,7 @@ const CartPage = () => {
             }
       
             try {
-              const response = await axios.post(`https://null4413-backend.onrender.com/api/catalogues/getCartItems`, reqBody, {
+              const response = await axios.post(`http://localhost:3001/api/catalogues/getCartItems`, reqBody, {
                 headers: {
                   'Content-Type': 'application/json',
                 }}
@@ -90,7 +90,7 @@ const CartPage = () => {
           cart: cookieData.cart
         }
         try {
-          const response = await axios.post(`https://null4413-backend.onrender.com/api/users/updateCart`, reqBody, {
+          const response = await axios.post(`http://localhost:3001/api/users/updateCart`, reqBody, {
             headers: {
               'Content-Type': 'application/json',
             }}
@@ -131,7 +131,7 @@ const CartPage = () => {
         const fetchUserID = async() => {
           console.log(cookieData.email)
           try {
-            const response = await axios.get(`https://null4413-backend.onrender.com/api/users/getID?email=${cookieData.email}`, {
+            const response = await axios.get(`http://localhost:3001/api/users/getID?email=${cookieData.email}`, {
                 headers: {
                   'Content-Type': 'application/json',
                 }

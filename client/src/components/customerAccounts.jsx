@@ -17,7 +17,7 @@ const CustomerAccounts = () => {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await axios.get('https://null4413-backend.onrender.com/api/users/getAllUsers');
+                const response = await axios.get('http://localhost:3001/api/users/getAllUsers');
                 setCustomers(response.data);
             } catch (err) {
                 setError(err.message);
@@ -33,7 +33,7 @@ const CustomerAccounts = () => {
         setLoadingOrders(true);
         setErrorOrders(null); 
         try {
-            const response = await axios.get(`https://null4413-backend.onrender.com/api/users/getUsersOrders?userId=${customerId}`);
+            const response = await axios.get(`http://localhost:3001/api/users/getUsersOrders?userId=${customerId}`);
             setOrders(response.data);
             setIsModalOpen(true); // Open the modal after fetching orders
         } catch (err) {
@@ -46,7 +46,7 @@ const CustomerAccounts = () => {
     const fetchCustomerInfo = async (email, customerId) => {
         setIsUpdateModalOpen(true);
         try {
-            const response = await axios.get(`https://null4413-backend.onrender.com/api/users/getUserInfo?email=${email}&userId=${customerId}`);
+            const response = await axios.get(`http://localhost:3001/api/users/getUserInfo?email=${email}&userId=${customerId}`);
             setSelectedCustomer(response.data);
             setIsUpdateModalOpen(true);
         } catch (err) {

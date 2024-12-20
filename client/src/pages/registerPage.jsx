@@ -31,7 +31,7 @@ const RegisterPage = () => {
 
     // check if user already exists in database
     try{
-      const response = await axios.get(`https://null4413-backend.onrender.com/api/users/findUserName?name=${email}`, {
+      const response = await axios.get(`http://localhost:3001/api/users/findUserName?name=${email}`, {
           headers: {
             'Content-Type': 'application/json',
           }
@@ -58,7 +58,7 @@ const RegisterPage = () => {
 
     // Post new user data to data base
     try {
-      const response = await axios.post('https://null4413-backend.onrender.com/api/users/register', userData, {
+      const response = await axios.post('http://localhost:3001/api/users/register', userData, {
         headers: {
           'Content-Type': 'application/json',
         }});

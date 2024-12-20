@@ -56,7 +56,7 @@ const UpdateCustomerInfoModal = ({ isOpen, onClose, customer }) => {
             console.log("here");
             console.log(formData);
             const response = await axios.put(
-                `https://null4413-backend.onrender.com/api/users/updateCustomerInfo`, // Replace with your actual endpoint
+                `http://localhost:3001/api/users/updateCustomerInfo`, // Replace with your actual endpoint
                 {
                     ...formData,
                 },
