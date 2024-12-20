@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from './modal';
+import PastOrderModal from './pastOrderModal';
+import UpdateCustomerInfoModal from './updateCustomerInfoModal'; 
 
 const CustomerAccounts = () => {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [orders, setOrders] = useState([]); // State to hold orders
-    const [loadingOrders, setLoadingOrders] = useState(false); // State to manage loading orders
-    const [errorOrders, setErrorOrders] = useState(null); // State to manage orders error
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+    const [orders, setOrders] = useState([]);
+    const [loadingOrders, setLoadingOrders] = useState(false);
+    const [errorOrders, setErrorOrders] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); 
+    const [selectedCustomer, setSelectedCustomer] = useState(null); 
 
     useEffect(() => {
         const fetchCustomers = async () => {
@@ -28,7 +31,7 @@ const CustomerAccounts = () => {
 
     const fetchCustomersOrders = async (customerId) => {
         setLoadingOrders(true);
-        setErrorOrders(null); // Reset error state
+        setErrorOrders(null); 
         try {
             const response = await axios.get(`http://localhost:3001/api/users/getUsersOrders?userId=${customerId}`);
             setOrders(response.data);
@@ -40,9 +43,25 @@ const CustomerAccounts = () => {
         }
     };
 
+    const fetchCustomerInfo = async (email, customerId) => {
+        setIsUpdateModalOpen(true);
+        try {
+            const response = await axios.get(`http://localhost:3001/api/users/getUserInfo?email=${email}&userId=${customerId}`);
+            setSelectedCustomer(response.data);
+            setIsUpdateModalOpen(true);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     const closeModal = () => {
         setIsModalOpen(false);
-        setOrders([]); // Clear orders when closing the modal
+        setOrders([]);
+    };
+
+    const closeUpdateModal = () => {
+        setIsUpdateModalOpen(false);
+        setSelectedCustomer(null);
     };
 
     if (loading) {
@@ -74,7 +93,7 @@ const CustomerAccounts = () => {
                                     <button className='viewOrder' onClick={() => fetchCustomersOrders(customer._id)}>
                                         View Past Orders
                                     </ button>
-                                    <button className='viewOrder'>Update/View Information</button>
+                                    <button className='viewOrder' onClick={() => fetchCustomerInfo(customer.email, customer._id)}>Update/View Information</button>
                                 </div>
                             </td>
                         </tr>
@@ -83,7 +102,12 @@ const CustomerAccounts = () => {
             </table>
 
             {/* Modal for displaying orders */}
-            <Modal isOpen={isModalOpen} onClose={closeModal} orders={orders} />
+            <PastOrderModal isOpen={isModalOpen} onClose={closeModal} orders={orders} />
+            <UpdateCustomerInfoModal
+                isOpen={isUpdateModalOpen}
+                onClose={closeUpdateModal}
+                customer={selectedCustomer}
+            />
 
             {loadingOrders && <div>Loading orders...</div>}
             {errorOrders && <div>Error fetching orders: {errorOrders}</div>}

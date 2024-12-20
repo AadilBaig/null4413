@@ -59,8 +59,8 @@ export default class AdminController {
     }
 
     static async getUsersOrders(req, res, next){
-        const userId = req.body.userId;
-        const response = await adminDAO.getUsersOrders();
+        const userId = req.query.userId;
+        const response = await adminDAO.getUsersOrders(userId);
 
         // Unable to find user
         if (!response) {
@@ -69,6 +69,45 @@ export default class AdminController {
         }
         console.log(response)
         res.status(200).json(response);
+    }
+
+    static async getUserInfo(req, res, next) {
+        const userEmail = req.query.email;
+        const userId = req.query.userId;
+        const response = await adminDAO.getUserInfo(userEmail, userId);
+
+        // Unable to find user
+        if (!response) {
+            res.status(401).json({ error: "Not Found" });
+            return;
+        }
+        console.log(response)
+        res.status(200).json(response);
+    }
+
+    static async updateCustomerInfo(req, res, next) {
+        const userId = req.body.userEmail;
+        const updatedInfo = {
+            addressStreet: req.body.addressStreet,
+            addressProvince: req.body.addressProvince,
+            addressCountry: req.body.addressCountry,
+            addressZip: req.body.addressZip,
+            addressPhoneNum: req.body.addressPhoneNum,
+            addressCreditCard: req.body.addressCreditCard,
+        };
+
+        try {
+        const response = await adminDAO.updateCustomerInfo(userId, updatedInfo);
+
+        if (!response) {
+            res.status(401).json({ error: "Not Found" });
+            return;
+        }
+        console.log(response)
+        res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({ error: "An error occurred while updating the user." });
+        }
     }
 
 

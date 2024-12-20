@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom'
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('sales');
 
-      // Get cookie methods from our context api class "CookieContext"
       const { cookieData } = useCookie();
 
       const navigate = useNavigate();

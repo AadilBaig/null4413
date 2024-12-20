@@ -52,4 +52,8 @@ router.route("/resetCart").post(UsersController.resetCart);
 
 router.route("/getUsersOrders").get(AdminController.getUsersOrders);
 
+router.route("/getUserInfo").get(AdminController.getUserInfo);
+
+router.route("/updateCustomerInfo").put(AdminController.updateCustomerInfo);
+
 export default router;
