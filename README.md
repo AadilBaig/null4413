@@ -7,6 +7,9 @@ email - admin@gmail.com
 
 password - admin
 
+# Prerequisites
+Node version 20.x.x or higher
+
 # Getting started
 Clone repo 
 
