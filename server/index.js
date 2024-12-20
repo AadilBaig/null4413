@@ -3,6 +3,7 @@ import mongodb from "mongodb";
 import dotenv from "dotenv";
 import UsersDAO from "./dao/usersDao.js";
 import CataloguesDAO from "./dao/cataloguesDAO.js";
+import adminDAO from "./dao/adminDAO.js";
 dotenv.config(); // used to load env variables from .env file
 
 const MongoClient = mongodb.MongoClient;
@@ -22,6 +23,7 @@ MongoClient.connect(process.env.MONGO_URL, {
 
     // Sends MongoDB connection object to respective DAOs
     await UsersDAO.injectDB(client);
+    await adminDAO.injectDB(client);
     await CataloguesDAO.injectDB(client);
     //...
     app.listen(port, () => {
