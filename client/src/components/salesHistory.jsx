@@ -6,6 +6,9 @@ const SalesHistory = () => {
     const [customers, setCustomers] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [customerFilter, setCustomerFilter] = useState('');
+    const [productFilter, setProductFilter] = useState('');
+    const [dateFilter, setDateFilter] = useState('');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -23,10 +26,10 @@ const SalesHistory = () => {
         };
 
         const fetchCustomers = async () => {
-            const response = await axios.get('http://localhost:3001/api/users/getAllUsers'); // Adjust the endpoint as necessary
+            const response = await axios.get('http://localhost:3001/api/users/getAllUsers');
             const customerMap = {};
             response.data.forEach(customer => {
-                customerMap[customer._id] = customer.firstName + " " + customer.lastName; // Assuming customer object has _id and name
+                customerMap[customer._id] = customer.firstName + " " + customer.lastName;
             });
             setCustomers(customerMap);
         };
@@ -38,9 +41,37 @@ const SalesHistory = () => {
     if (loading) return <p>Loading orders...</p>;
     if (error) return <p>{error}</p>;
 
+    // Filter orders based on the filters
+    const filteredOrders = orders.filter(order => {
+        const customerMatch = customerFilter ? customers[order.FK_CustomerID]?.toLowerCase().includes(customerFilter.toLowerCase()) : true;
+        const productMatch = productFilter ? (order.productName && JSON.parse(order.productName).some(product => product.name.toLowerCase().includes(productFilter.toLowerCase()))) : true;
+        const dateMatch = dateFilter ? new Date(order.Date).toLocaleDateString() === new Date(dateFilter).toLocaleDateString() : true;
+
+        return customerMatch && productMatch && dateMatch;
+    });
+
     return (
         <div>
             <h2>Sales History</h2>
+            <div>
+                <input
+                    type="text"
+                    placeholder="Filter by Customer"
+                    value={customerFilter}
+                    onChange={(e) => setCustomerFilter(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Filter by Product"
+                    value={productFilter}
+                    onChange={(e) => setProductFilter(e.target.value)}
+                />
+                <input
+                    type="date"
+                    value={dateFilter}
+                    onChange={(e) => setDateFilter(e.target.value)}
+                />
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -48,14 +79,12 @@ const SalesHistory = () => {
                         <th>Products</th>
                         <th>Date</th>
                         <th>Price</th>
-                        {/* <th>Details</th> */}
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map((order, index) => {
+                    {filteredOrders.map((order, index) => {
                         let products = [];
                         try {
-                            // Check if productName is defined and parse it
                             if (order.productName) {
                                 products = JSON.parse(order.productName);
                             }
@@ -67,7 +96,6 @@ const SalesHistory = () => {
                             <tr key={index}>
                                 <td>{customers[order.FK_CustomerID] || 'Unknown'}</td>
                                 <td>
-                                    {/* Check if products array is not empty */}
                                     {products.length > 0 ? (
                                         <ul>
                                             {products.map((product, productIndex) => (
@@ -81,9 +109,8 @@ const SalesHistory = () => {
                                         <p>No products available</p>
                                     )}
                                 </td>
-                                <td>{new Date(order.Date).toLocaleDateString()}</td>
+                                <td>{order.Date}</td>
                                 <td>{order.TotalPrice.toFixed(2)}</td>
-                                {/* <td><button className='viewOrder'>View Order</button></td> */}
                             </tr>
                         );
                     })}
