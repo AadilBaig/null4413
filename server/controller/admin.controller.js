@@ -59,6 +59,7 @@ export default class AdminController {
     }
 
     static async getUsersOrders(req, res, next){
+        const userId = req.body.userId;
         const response = await adminDAO.getUsersOrders();
 
         // Unable to find user
