@@ -84,7 +84,7 @@ const InventoryManagement = () => {
                                     value={newQuantities[item._id] || ''}
                                     onChange={(e) => handleInputChange(item._id, e.target.value)}
                                 />
-                                <button
+                                <button className='viewOrder'
                                     onClick={() =>
                                         updateQuantity(item._id, parseInt(newQuantities[item._id] || item.Item1.quantity, 10))
                                     }

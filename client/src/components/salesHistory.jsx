@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const SalesHistory = () => {
     const [orders, setOrders] = useState([]);
@@ -41,7 +43,7 @@ const SalesHistory = () => {
     if (loading) return <p>Loading orders...</p>;
     if (error) return <p>{error}</p>;
 
-    // Filter orders based on the filters
+
     const filteredOrders = orders.filter(order => {
         const customerMatch = customerFilter ? customers[order.FK_CustomerID]?.toLowerCase().includes(customerFilter.toLowerCase()) : true;
         const productMatch = productFilter ? (order.productName && JSON.parse(order.productName).some(product => product.name.toLowerCase().includes(productFilter.toLowerCase()))) : true;
@@ -49,6 +51,62 @@ const SalesHistory = () => {
 
         return customerMatch && productMatch && dateMatch;
     });
+
+
+    const generateReport = () => {
+        const doc = new jsPDF();
+        let totalRevenue = 0;
+        const productCount = {};
+        const customerSet = new Set();
+
+        filteredOrders.forEach(order => {
+            totalRevenue += order.TotalPrice;
+            customerSet.add(customers[order.FK_CustomerID] || 'Unknown');
+
+            if (order.productName) {
+                const products = JSON.parse(order.productName);
+                products.forEach(product => {
+                    productCount[product.name] = (productCount[product.name] || 0) + product.qty;
+                });
+            }
+        });
+
+        doc.text("Sales Report", 20, 10);
+        doc.text(`Total Revenue: $${totalRevenue.toFixed(2)}`, 20, 20);
+        doc.text(`Unique Customers: ${customerSet.size}`, 20, 30);
+        doc.text("Top Products:", 20, 40);
+
+
+        const topProducts = Object.entries(productCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        const productTableData = topProducts.map((product, index) => [index + 1, product[0], product[1]]);
+
+        doc.autoTable({
+            head: [['#', 'Product Name', 'Quantity Sold']],
+            body: productTableData,
+            startY: 50,
+            theme: 'grid',
+        });
+
+        doc.addPage();
+        doc.text("Detailed Orders", 20, 10);
+
+        const orderTableData = filteredOrders.map(order => [
+            order._id,
+            customers[order.FK_CustomerID] || 'Unknown',
+            order.productName ? JSON.parse(order.productName).map(product => product.name).join(', ') : 'N/A',
+            `$${order.TotalPrice.toFixed(2)}`,
+            new Date(order.Date).toLocaleDateString()
+        ]);
+
+        doc.autoTable({
+            head: [['Order ID', 'Customer', 'Product', 'Total Price', 'Date']],
+            body: orderTableData,
+            startY: 20,
+            theme: 'grid',
+        });
+
+        doc.save("sales_report.pdf");
+    };
 
     return (
         <div>
@@ -71,49 +129,28 @@ const SalesHistory = () => {
                     value={dateFilter}
                     onChange={(e) => setDateFilter(e.target.value)}
                 />
+                <button onClick={generateReport}>Generate Report</button>
             </div>
             <table>
                 <thead>
                     <tr>
+                        <th>Order ID</th>
                         <th>Customer</th>
-                        <th>Products</th>
+                        <th>Product</th>
+                        <th>Total Price</th>
                         <th>Date</th>
-                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredOrders.map((order, index) => {
-                        let products = [];
-                        try {
-                            if (order.productName) {
-                                products = JSON.parse(order.productName);
-                            }
-                        } catch (error) {
-                            console.error('Error parsing productName:', error);
-                        }
-
-                        return (
-                            <tr key={index}>
-                                <td>{customers[order.FK_CustomerID] || 'Unknown'}</td>
-                                <td>
-                                    {products.length > 0 ? (
-                                        <ul>
-                                            {products.map((product, productIndex) => (
-                                                <li className="productList" key={productIndex} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                    <span>{product.name}</span>
-                                                    <span>{product.qty}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>No products available</p>
-                                    )}
-                                </td>
-                                <td>{order.Date}</td>
-                                <td>{order.TotalPrice.toFixed(2)}</td>
-                            </tr>
-                        );
-                    })}
+                    {filteredOrders.map(order => (
+                        <tr key={order._id}>
+                            <td>{order._id}</td>
+                            <td>{customers[order.FK_CustomerID] || 'Unknown'}</td>
+                            <td>{order.productName ? JSON.parse(order.productName).map(product => product.name).join(', ') : 'N/A'}</td>
+                            <td>${order.TotalPrice.toFixed(2)}</td>
+                            <td>{new Date(order.Date).toLocaleDateString()}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
