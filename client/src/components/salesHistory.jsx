@@ -166,7 +166,7 @@ const SalesHistory = () => {
                             <td>{customers[order.FK_CustomerID] || 'Unknown'}</td>
                             <td>{order.productName ? JSON.parse(order.productName).map(product => product.name).join(', ') : 'N/A'}</td>
                             <td>${order.TotalPrice.toFixed(2)}</td>
-                            <td>{new Date(order.Date).toLocaleDateString()}</td>
+                            <td>{order.Date}</td>
                         </tr>
                     ))}
                 </tbody>
