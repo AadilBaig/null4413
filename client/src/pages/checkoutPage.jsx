@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { useNavigate, useParams} from 'react-router-dom'
+import { useNavigate, useParams, useLocation} from 'react-router-dom'
 import { useCookie } from '../global/CookieContext'
 import axios from "axios"
 import './pages.css'
@@ -21,14 +21,21 @@ const CheckoutPage = () => {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    const [isFinishedOrder, setIsFinishedOrder] = useState(false)
+
+    // price
+    const location = useLocation();
+    const { price } = location.state || {}
+
 
     // Get cookie methods from our context api class "CookieContext"
-    const { cookieData, saveCookieData, clearCookieData, appendToCart, updateItemQtyInCart } = useCookie();
+    const { cookieData, saveCookieData, clearCookieData, appendToCart, updateItemQtyInCart, resetCart } = useCookie();
 
     const navigate = useNavigate();
 
     // checks if user is permitted to view this page 
     useEffect(() => {
+        console.log("price " + price)
         if (!cookieData) {
             return;
         }
@@ -88,14 +95,70 @@ const CheckoutPage = () => {
 
     }, [isChecked]);
 
+    // method that resets user cart when order is done processing
+    useEffect(() => {
+        if (!isFinishedOrder)
+            return;
+
+        const resetUserCart = async() => {
+            try {
+                const reqBody = {
+                    email: cookieData.email
+                }
+                const response = await axios.post(`http://localhost:3001/api/users/resetCart`,reqBody, {
+                    headers: {
+                      'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.data) {
+                    console.log("User cart failed to reset")
+                    return;
+                }
+
+                // reset
+                alert("Order has been submitted, Thank you.");
+                resetCart();
+                navigate("/");
+
+            }
+            catch (error) {
+                console.error("Failed to reset user cart", error)
+            }
+        }
+
+        //invoke
+        resetUserCart();
+    }, [isFinishedOrder])
+
     // function to add orders to order collection
     const postOrder = async() => {
-        // try{
+        try{
+            const reqBody = {
+                id: id,
+                totalPrice: price,
+                orderList: cookieData ? cookieData.cart : []
+            }
+            const response = await axios.post(`http://localhost:3001/api/users/addOrder`, reqBody, {
+                headers: {
+                  'Content-Type': 'application/json',
+                }
+            });
 
-        // }
-        // catch (error) {
-        //     console.error("Error in posting order to order collection")
-        // }
+            if (!response.data) {
+                console.log("adding order failed");
+                return;
+            }
+
+            console.log("Successfully added order");
+
+            // Clear data
+            setIsFinishedOrder(true);
+
+        }
+        catch (error) {
+            console.error("Error in posting order to order collection")
+        }
     }
 
     // function to update inventory
@@ -206,10 +269,6 @@ const CheckoutPage = () => {
 
             // subtract inventory and add order to orderView db
 
-
-        // rememebr to clear cart data 
-        // alert("Order has been submitted, Thank you.");
-        // navigate("/");
 
             // invoke
             postUpdateAddress();

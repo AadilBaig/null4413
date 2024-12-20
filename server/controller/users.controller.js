@@ -1,6 +1,7 @@
 import UsersDAO from "../dao/usersDao.js";
 import AddressDAO from "../dao/addressDAO.js";
 import CataloguesDAO from "../dao/cataloguesDAO.js";
+import OrdersDAO from "../dao/ordersDAO.js";
 
 export default class UsersController {
   // Controller method for finding a user by email
@@ -157,6 +158,33 @@ export default class UsersController {
       phoneNum,
       creditcard
     );
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller method for adding user's order to order collection
+  static async addOrder(req, res, next) {
+    const { id, totalPrice, orderList } = req.body;
+    console.log(orderList);
+
+    const response = await OrdersDAO.addOrders(id, totalPrice, orderList);
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller method to reset cart
+  static async resetCart(req, res, next) {
+    const { email } = req.body;
+
+    const response = await UsersDAO.resetCart(email);
 
     if (!response) {
       res.status(500).json(response);

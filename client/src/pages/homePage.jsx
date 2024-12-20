@@ -246,6 +246,7 @@ const HomePage = () => {
         itemName: item,
         qty: 1
       }
+      console.log(cookieData.cart)
       const response = await axios.post('http://localhost:3001/api/users/addItemToCart', reqBody, {
         headers: {
           'Content-Type': 'application/json',

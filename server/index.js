@@ -5,6 +5,7 @@ import UsersDAO from "./dao/usersDao.js";
 import CataloguesDAO from "./dao/cataloguesDAO.js";
 import adminDAO from "./dao/adminDAO.js";
 import AddressDAO from "./dao/addressDAO.js";
+import OrdersDAO from "./dao/ordersDAO.js";
 dotenv.config(); // used to load env variables from .env file
 
 const MongoClient = mongodb.MongoClient;
@@ -27,6 +28,7 @@ MongoClient.connect(process.env.MONGO_URL, {
     await adminDAO.injectDB(client);
     await CataloguesDAO.injectDB(client);
     await AddressDAO.injectDB(client);
+    await OrdersDAO.injectDB(client);
     //...
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);

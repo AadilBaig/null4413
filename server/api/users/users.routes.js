@@ -44,4 +44,10 @@ router.route("/updateQuantity").post(AdminController.updateItemQty);
 // updates inventory
 router.route("/updateInventory").post(UsersController.updateInventory);
 
+// post user order
+router.route("/addOrder").post(UsersController.addOrder);
+
+// post to reset user cart
+router.route("/resetCart").post(UsersController.resetCart);
+
 export default router;

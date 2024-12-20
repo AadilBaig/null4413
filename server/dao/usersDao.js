@@ -112,6 +112,7 @@ export default class UsersDAO {
 
   // method for adding item to user's cart
   static async addItemToCart(email = null, itemName = null, qty = null) {
+    console.log("email " + email + "item " + itemName + "qty " + qty);
     if (!email || !itemName || !qty) {
       console.log("Email, item, or quantity is missing");
       return false;
@@ -188,6 +189,34 @@ export default class UsersDAO {
       return user._id;
     } catch (error) {
       console.error("Error finding user ID ", error);
+      return false;
+    }
+  }
+
+  // method to reset user cart
+  static async resetCart(email = null) {
+    if (!email) {
+      console.log("email doesn't exist or invalid");
+      return;
+    }
+
+    try {
+      // Reset the cart by setting it to an empty array
+      const result = await usersCollection.updateOne(
+        { email: email },
+        { $set: { cart: [] } } // Set the cart to an empty array
+      );
+
+      // Check if the cart was successfully reset
+      if (result.modifiedCount === 0) {
+        console.log("No user found or cart reset failed.");
+        return false;
+      }
+
+      console.log("User's cart has been reset");
+      return true;
+    } catch (error) {
+      console.error("Error in trying to reset cart");
       return false;
     }
   }

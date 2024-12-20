@@ -73,6 +73,33 @@ export const CookieProvider = ({ children }) => {
     }
   };
 
+  // Method to reset cart
+  const resetCart = () => {
+    if (cookieData) {
+      // Create a new object with an empty cart
+      const updatedCookieData = { ...cookieData, cart: [] };
+
+      // Save the updated cookie data
+      saveCookieData(updatedCookieData);
+    }
+  };
+
+  // Method to remove an item from cart
+  const removeItem = (itemName) => {
+    if (cookieData) {
+      // Filter the cart to exclude the item with the specified name
+      const updatedCart = cookieData.cart.filter(
+        (cartItem) => cartItem.name !== itemName
+      );
+
+      // Create a new cookieData object with the updated cart
+      const updatedCookieData = { ...cookieData, cart: updatedCart };
+
+      // Save the updated cookie data
+      saveCookieData(updatedCookieData);
+    }
+  };
+
   return (
     <CookieContext.Provider
       value={{
@@ -81,6 +108,8 @@ export const CookieProvider = ({ children }) => {
         clearCookieData,
         appendToCart,
         updateItemQtyInCart,
+        resetCart,
+        removeItem,
       }}
     >
       {children}

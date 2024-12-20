@@ -2,13 +2,13 @@ import React, {useState, useEffect} from 'react'
 import NavBar from '../components/navBar'
 import { useCookie } from '../global/CookieContext'
 import './pages.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import axios from "axios"
 
 const CartPage = () => {
 
     // Get cookie methods from our context api class "CookieContext"
-    const { cookieData, saveCookieData, clearCookieData, appendToCart, updateItemQtyInCart } = useCookie();
+    const { cookieData, saveCookieData, clearCookieData, appendToCart, updateItemQtyInCart, removeItem } = useCookie();
 
     // Keeps track of item names and current user inputed quantity in the cart
     const [qtyInputValues, setQtyInputValues] = useState({});
@@ -26,7 +26,7 @@ const CartPage = () => {
 
     // fetch user's cart from database if they are logged in
     useEffect(() => {
-        if (!cookieData || !cookieData.cart || cookieData.cart.length === 0) {
+        if (!cookieData || !cookieData.cart) {
             console.log("Cookie data or cart is empty, skipping fetch.");
             return;  // Exit early if cookieData or cart is not available
           }
@@ -107,7 +107,7 @@ const CartPage = () => {
 
         // Calculate the total price when the cart or quantities change
       useEffect(() => {
-        if (!cookieData || !cookieData.cart || cookieData.cart.length === 0 || cartItems.length === 0) {
+        if (!cookieData || !cookieData.cart) {
             console.log("Cookie data or cart is empty, skipping fetch.");
             return;  // Exit early if cookieData or cart is not available
           }
@@ -143,7 +143,7 @@ const CartPage = () => {
               return;
             }
 
-            navigate(`/checkout/${data}`);
+            navigate(`/checkout/${data}`, {state: { price: price}});
           }
           catch (error) {
             console.error("Error in fetching user id", error);
@@ -206,6 +206,11 @@ const CartPage = () => {
         setIsCheckingOut(true);
     }
 
+    // Removing item
+    const handleRemove = (itemName) => {
+      removeItem(itemName);
+    }
+
   return (
     <div>
         <NavBar />
@@ -225,7 +230,7 @@ const CartPage = () => {
                                     <input type="number" value={qtyInputValues[item.name] || 1} onChange={(e) => handleQtyChange(item.name, e.target.value)} onKeyDown={(e) => handleQtyEnter(item.name, e.target.value, e.key,item.quantity)}></input>
                                 </div>
                                 <button onClick={() => updateQty(item.name, qtyInputValues[item.name], item.quantity)}>Update</button>
-                                <button>Remove</button>
+                                <button onClick={() => handleRemove(item.name)}>Remove</button>
                             </div>
                         </div>
                     </div>
