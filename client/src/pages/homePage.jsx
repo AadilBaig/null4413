@@ -365,7 +365,7 @@ const HomePage = () => {
                     {/* <div className="placeHolder">Image Placeholder</div> */}
                     {item.Item1.name}
                     <div><strong>Price:</strong> <span>{"$" + String(item.Item1.price.$numberDecimal || item.Item1.price)}</span> </div>
-                    {isItemInCart(item.Item1.name) ? <button className="addCartButtonInActive">Add to cart</button> : <button onClick={() => addItemToCart(item.Item1.name)}className="addCartButton">Add to cart</button>}
+                    {isItemInCart(item.Item1.name) || item.Item1.quantity === 0 ? <button className="addCartButtonInActive">Add to cart</button> : <button onClick={() => addItemToCart(item.Item1.name)}className="addCartButton">Add to cart</button>}
                     
                     <button onClick={() => toggleVisibility(item._id)} style={{display: "flex",  alignItems: "center", borderRadius: "8px", borderWidth: "1px"}}>{visibleDetails[item._id] ? (<>Hide Details <IoIosArrowRoundUp size={20} /></>) : (<>View Details <IoIosArrowRoundForward size={20} /></>)}</button>
                   
