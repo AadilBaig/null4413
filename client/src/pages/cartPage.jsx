@@ -61,7 +61,7 @@ const CartPage = () => {
 
     // init the qtyInputValues object with the names of each cart item as well as the default entered qty of 1
     useEffect(() => {
-        if (!cookieData || !cookieData.cart || cookieData.cart.length === 0) {
+        if (!cookieData || !cookieData.cart) {
             console.log("Cookie data or cart is empty, skipping fetch.");
             return;  // Exit early if cookieData or cart is not available
           }
@@ -79,7 +79,7 @@ const CartPage = () => {
 
     // updates user's current cart to the db
     useEffect(() => {
-      if (!cookieData || !cookieData.cart || cookieData.cart.length === 0) {
+      if (!cookieData || !cookieData.cart) {
         console.log("Cookie data or cart is empty, skipping fetch.");
         return;  // Exit early if cookieData or cart is not available
       }
@@ -126,6 +126,7 @@ const CartPage = () => {
         }
         else if (!isCheckingOut)
           return;
+
 
         const fetchUserID = async() => {
           console.log(cookieData.email)
@@ -202,6 +203,10 @@ const CartPage = () => {
         if (cookieData && cookieData.role === 'guest'){
             alert('Must be signed in to checkout.');
             return;
+        }
+        else if (price === 0) {
+          alert("You have 0 items in cart.")
+          return;
         }
         setIsCheckingOut(true);
     }
