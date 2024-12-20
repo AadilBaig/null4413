@@ -1,4 +1,6 @@
 import UsersDAO from "../dao/usersDao.js";
+import AddressDAO from "../dao/addressDAO.js";
+import CataloguesDAO from "../dao/cataloguesDAO.js";
 
 export default class UsersController {
   // Controller method for finding a user by email
@@ -83,6 +85,78 @@ export default class UsersController {
     console.log(email);
 
     const response = await UsersDAO.getID(email);
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller method for getting user address
+  static async getAddress(req, res, next) {
+    const id = req.query.id;
+    console.log(id);
+
+    const response = await AddressDAO.getAddress(id);
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller method for updateing user address
+  static async updateAddress(req, res, next) {
+    const { userid, street, province, country, zip, phoneNum, creditcard } =
+      req.body;
+
+    const response = await AddressDAO.updateAddress(
+      userid,
+      street,
+      province,
+      country,
+      zip,
+      phoneNum,
+      creditcard
+    );
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // method for updating inventory
+  static async updateInventory(req, res, next) {
+    const { orderList } = req.body;
+    console.log(orderList);
+
+    const response = await CataloguesDAO.updateInventory(orderList);
+
+    if (!response) {
+      res.status(500).json(response);
+      return;
+    }
+    res.status(200).json(response);
+  }
+
+  // Controller for adding address of user
+  static async addAddress(req, res, next) {
+    const { userid, street, province, country, zip, phoneNum, creditcard } =
+      req.body;
+
+    const response = await AddressDAO.addAddress(
+      userid,
+      street,
+      province,
+      country,
+      zip,
+      phoneNum,
+      creditcard
+    );
 
     if (!response) {
       res.status(500).json(response);

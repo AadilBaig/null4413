@@ -15,6 +15,15 @@ router.route("/findUser").get(UsersController.findUser);
 // get user id
 router.route("/getID").get(UsersController.getID);
 
+// get user's address
+router.route("/getAddress").get(UsersController.getAddress);
+
+// update user's address when checking out
+router.route("/updateAddress").post(UsersController.updateAddress);
+
+// add user address
+router.route("/addAddress").post(UsersController.addAddress);
+
 // register new user
 router.route("/register").post(UsersController.addUser);
 
@@ -31,5 +40,8 @@ router.route("/getAllUsers").get(AdminController.getAllUsers);
 router.route("/getInventory").get(AdminController.getInventory);
 
 router.route("/updateQuantity").post(AdminController.updateItemQty);
+
+// updates inventory
+router.route("/updateInventory").post(UsersController.updateInventory);
 
 export default router;

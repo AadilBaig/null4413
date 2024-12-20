@@ -58,4 +58,42 @@ export default class CataloguesDAO {
       return null;
     }
   }
+
+  // method to update Inventory
+  static async updateInventory(orderList = null) {
+    if (!orderList || orderList.length === 0) {
+      console.log("Order list is empty or invalid.");
+      return false;
+    }
+
+    try {
+      // Loop through the orderList to update each item's quantity
+      for (const orderItem of orderList) {
+        const { name, qty } = orderItem;
+
+        if (!name || !qty) {
+          console.log(`Invalid order item: ${JSON.stringify(orderItem)}`);
+          continue;
+        }
+
+        console.log("name:" + name + " qty: " + qty);
+
+        // Find the document containing the item and update its quantity
+        const result = await itemsCollection.updateOne(
+          { "Item1.name": name },
+          { $inc: { "Item1.quantity": -qty } } // Decrease the quantity
+        );
+
+        if (result.modifiedCount === 0) {
+          console.log(`No items updated for name: ${name}`);
+        }
+      }
+
+      console.log("Inventory updated successfully");
+      return true;
+    } catch (error) {
+      console.error("Error in trying to update inventory");
+      return false;
+    }
+  }
 }
