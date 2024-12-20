@@ -43,7 +43,8 @@ const HomePage = () => {
     // console.log(JSON.stringify(cookieData));
     const fetchItems = async() => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/catalogues/getItems`, {
+        const response = await axios.get(`https://null4413-backend.onrender.com/api/catalogues/getItems`, {
+        // const response = await axios.get(`http://localhost:3001/api/catalogues/getItems`, {
           headers: {
             'Content-Type': 'application/json',
           }}
