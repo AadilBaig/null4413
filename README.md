@@ -41,3 +41,8 @@ Navigate to null4413/server and run "npm start"
 Navigate to null4413/client and run "npm start"
 
 
+# Environment versions
+
+minimum node version - v20.11.1
+
+
